@@ -14,5 +14,9 @@ namespace TravelAgencyBusinessLogic.BindingModel
         public int ClientId { get; set; }
         [DataMember]
         public decimal FinalCost { get; set; }
+        [DataMember]
+        public bool IsCredit { get; set; }
+        [DataMember]
+        public int Duration { get; set; }
     }
 }

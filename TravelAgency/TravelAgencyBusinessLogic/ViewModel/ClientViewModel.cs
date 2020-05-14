@@ -10,7 +10,7 @@ namespace TravelAgencyBusinessLogic.ViewModel
     public class ClientViewModel
     {
         [DataMember]
-        public int Id { get; set; }
+        public int? Id { get; set; }
         [DataMember]
         [DisplayName("ФИО")]
         public string ClientFIO { get; set; }

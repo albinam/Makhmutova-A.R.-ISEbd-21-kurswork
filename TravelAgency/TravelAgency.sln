@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.29926.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelAgencyView", "TravelAgencyView\TravelAgencyView.csproj", "{C24E6C18-F6B1-4BA1-A420-D8719D0F613A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelAgencyBusinessLogic", "TravelAgencyBusinessLogic\TravelAgencyBusinessLogic.csproj", "{FB18D957-9675-41BC-8941-2B4A60B83D0C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelAgencyBusinessLogic", "TravelAgencyBusinessLogic\TravelAgencyBusinessLogic.csproj", "{FB18D957-9675-41BC-8941-2B4A60B83D0C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelAgencyDatabaseImplement", "TravelAgencyDatabaseImplement\TravelAgencyDatabaseImplement.csproj", "{FA1EAE11-E6BF-4A5B-A808-64D3A24DF6A8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{FB18D957-9675-41BC-8941-2B4A60B83D0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB18D957-9675-41BC-8941-2B4A60B83D0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB18D957-9675-41BC-8941-2B4A60B83D0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA1EAE11-E6BF-4A5B-A808-64D3A24DF6A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA1EAE11-E6BF-4A5B-A808-64D3A24DF6A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA1EAE11-E6BF-4A5B-A808-64D3A24DF6A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA1EAE11-E6BF-4A5B-A808-64D3A24DF6A8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TravelAgencyBusinessLogic.Enums
 {
-    public enum OrderStatus
+    public enum TravelStatus
     {
         Принят = 0,   
         Оплачен_не_полностью = 1,
