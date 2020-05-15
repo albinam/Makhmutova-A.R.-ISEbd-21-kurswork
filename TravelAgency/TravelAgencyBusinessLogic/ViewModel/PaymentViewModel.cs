@@ -10,7 +10,9 @@ namespace TravelAgencyBusinessLogic.ViewModel
     public class PaymentViewModel
     {
         [DataMember]
-        public int? Id { get; set; }
+        public int Id { get; set; }
+        [DataMember]   
+        public int ClientId { get; set; }
         [DataMember]
         public int TravelId { get; set; }
         [DataMember]

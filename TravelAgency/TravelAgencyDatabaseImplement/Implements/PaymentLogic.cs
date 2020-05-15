@@ -35,6 +35,7 @@ namespace TravelAgencyDatabaseImplement.Implements
                     context.Payments.Add(element);
                 }
                 element.TravelId = model.TravelId;
+                element.ClientId = model.ClientId;
                 element.Sum = model.Sum;
                 element.DatePayment = model.DatePayment;
                 context.SaveChanges();
@@ -66,6 +67,7 @@ namespace TravelAgencyDatabaseImplement.Implements
                 .Select(rec => new PaymentViewModel
                 {
                     Id = rec.Id,
+                    ClientId = rec.ClientId,
                     DatePayment = rec.DatePayment,
                     TravelId = rec.TravelId,
                     Sum = rec.Sum

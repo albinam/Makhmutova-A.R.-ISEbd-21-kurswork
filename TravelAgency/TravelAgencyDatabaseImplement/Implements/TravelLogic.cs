@@ -40,10 +40,8 @@ namespace TravelAgencyDatabaseImplement.Implements
                             element = new Travel();
                             context.Travels.Add(element);
                         }
-                        element.Id = model.Id;
                         element.DateOfBuying = model.DateOfBuying;
-                        element.DateStart = model.DateStart;
-                        element.ClientId = model.ClientId.Value;
+                        element.ClientId = model.ClientId;
                         element.Duration = model.Duration;
                         element.FinalCost = model.FinalCost;
                         element.Status = model.Status;
@@ -53,7 +51,7 @@ namespace TravelAgencyDatabaseImplement.Implements
                         .Select(rec => new
                         {
                             TourId = rec.Key,
-                            Cost = rec.Sum(r => r.Cost)
+                            Count = rec.Sum(r => r.Count)
                         });
                         foreach (var groupTour in groupTours)
                         {
@@ -61,7 +59,7 @@ namespace TravelAgencyDatabaseImplement.Implements
                             {
                                 TravelId = element.Id,
                                 TourId = groupTour.TourId,
-                                Cost = groupTour.Cost
+                                Count = groupTour.Count
                             });
                             context.SaveChanges();
                             transaction.Commit();
@@ -117,7 +115,6 @@ namespace TravelAgencyDatabaseImplement.Implements
                     Id = rec.Id,
                     DateOfBuying = rec.DateOfBuying,
                     TravelName = rec.TravelName,
-                    DateStart = rec.DateStart,
                     ClientId = rec.ClientId,
                     Duration = rec.Duration,
                     FinalCost = rec.FinalCost,
@@ -131,8 +128,7 @@ namespace TravelAgencyDatabaseImplement.Implements
                        Id = recCI.Id,
                        TravelId = recCI.TravelId,
                        TourId = recCI.TourId,
-                       TourName = recCI.Tour.TourName,
-                       Cost = recCI.Cost
+                       Count = recCI.Count
                     })
                     .ToList()
                 })
