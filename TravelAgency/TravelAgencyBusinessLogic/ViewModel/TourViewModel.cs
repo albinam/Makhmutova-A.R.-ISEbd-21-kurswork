@@ -10,13 +10,13 @@ namespace TravelAgencyBusinessLogic.ViewModel
         public int Id { get; set; }
         [DisplayName("Название тура")]
         public string TourName { get; set; }
-        [DisplayName("Тип размещения")]
-        public string TypeOfAllocation { get; set; }
-        [DisplayName("Длительность")]
-        public int Duration { get; set; }
         [DisplayName("Страна")]
         public string Country { get; set; }
+        [DisplayName("Длительность")]
+        public int Duration { get; set; }
         [DisplayName("Цена")]
-        public decimal Cost { get; set; }
+        public decimal Cost { get; set; }   
+        [DisplayName("Тип размещения")]
+        public string TypeOfAllocation { get; set; }
     }
 }

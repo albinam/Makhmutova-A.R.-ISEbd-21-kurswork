@@ -16,7 +16,7 @@ namespace TravelAgencyBusinessLogic.BindingModel
         public DateTime DateOfBuying { get; set; }
         public DateTime DateStart { get; set; }
         public TravelStatus Status { get; set; }
-        public Dictionary<int, (string, int)> TravelTours { get; set; }
+        public List<TravelTourBindingModel> TravelTours { get; set; }
         public List<PaymentBindingModel> Payments { get; set; }
     }
 }

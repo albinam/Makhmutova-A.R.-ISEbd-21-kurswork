@@ -39,7 +39,7 @@ namespace TravelAgencyBusinessLogic.ViewModel
         [DisplayName("Статус")]
         public TravelStatus Status { get; set; }
         [DataMember]
-        public Dictionary<int, (string, int)> TravelTours { get; set; }
+        public List<TravelTourViewModel> TravelTours { get; set; }
         [DataMember]
         public List<PaymentViewModel> Payments { get; set; }
     }

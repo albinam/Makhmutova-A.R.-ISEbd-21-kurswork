@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,44 +16,93 @@ namespace TravelAgencyDatabaseImplement.Implements
         {
             using (var context = new TravelAgencyDatabase())
             {
-                Travel element;
-                if (model.Id.HasValue)
+                using (var transaction = context.Database.BeginTransaction())
                 {
-                    element = context.Travels.FirstOrDefault(rec => rec.Id == model.Id);
-                    if (element == null)
+                    try
                     {
-                        throw new Exception("Элемент не найден");
+                        Travel element = context.Travels.FirstOrDefault(rec =>
+                       rec.TravelName == model.TravelName && rec.Id != model.Id);
+                        if (element != null)
+                        {
+                            throw new Exception("Уже есть путешествие с таким названием");
+                        }
+                        if (model.Id.HasValue)
+                        {
+                            element = context.Travels.FirstOrDefault(rec => rec.Id ==
+                           model.Id);
+                            if (element == null)
+                            {
+                                throw new Exception("Элемент не найден");
+                            }
+                        }
+                        else
+                        {
+                            element = new Travel();
+                            context.Travels.Add(element);
+                        }
+                        element.Id = model.Id;
+                        element.DateOfBuying = model.DateOfBuying;
+                        element.DateStart = model.DateStart;
+                        element.ClientId = model.ClientId.Value;
+                        element.Duration = model.Duration;
+                        element.FinalCost = model.FinalCost;
+                        element.Status = model.Status;
+                        element.IsCredit = model.IsCredit;
+                        var groupTours = model.TravelTours
+                        .GroupBy(rec => rec.TourId)
+                        .Select(rec => new
+                        {
+                            TourId = rec.Key,
+                            Cost = rec.Sum(r => r.Cost)
+                        });
+                        foreach (var groupTour in groupTours)
+                        {
+                            context.TravelTours.Add(new TravelTour
+                            {
+                                TravelId = element.Id,
+                                TourId = groupTour.TourId,
+                                Cost = groupTour.Cost
+                            });
+                            context.SaveChanges();
+                            transaction.Commit();
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        transaction.Rollback();
+                        throw;
                     }
                 }
-                else
-                {
-                    element = new Travel();
-                    context.Travels.Add(element);
-                }
-                element.Id = model.Id;
-                element.DateOfBuying = model.DateOfBuying;
-                element.DateStart = model.DateStart;
-                element.ClientId = model.ClientId.Value;
-                element.Duration = model.Duration;
-                element.FinalCost = model.FinalCost;
-                element.Status = model.Status;
-                element.IsCredit = model.IsCredit;
-                context.SaveChanges();
             }
         }
         public void Delete(TravelBindingModel model)
         {
             using (var context = new TravelAgencyDatabase())
             {
-                Travel element = context.Travels.FirstOrDefault(rec => rec.Id == model.Id);
-                if (element != null)
+                using (var transaction = context.Database.BeginTransaction())
                 {
-                    context.Travels.Remove(element);
-                    context.SaveChanges();
-                }
-                else
-                {
-                    throw new Exception("Элемент не найден");
+                    try
+                    {
+                        context.TravelTours.RemoveRange(context.TravelTours.Where(rec =>
+                        rec.TravelId == model.Id));
+                        Travel element = context.Travels.FirstOrDefault(rec => rec.Id
+                        == model.Id);
+                        if (element != null)
+                        {
+                            context.Travels.Remove(element);
+                            context.SaveChanges();
+                        }
+                        else
+                        {
+                            throw new Exception("Элемент не найден");
+                        }
+                        transaction.Commit();
+                    }
+                    catch (Exception)
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
                 }
             }
         }
@@ -74,6 +124,17 @@ namespace TravelAgencyDatabaseImplement.Implements
                     Status = rec.Status,
                     IsCredit = rec.IsCredit,
                     ClientFIO = rec.Client.ClientFIO,
+                    TravelTours = context.TravelTours
+                 .Where(recCI => recCI.TravelId == rec.Id)
+                 .Select(recCI => new TravelTourViewModel
+                   {
+                       Id = recCI.Id,
+                       TravelId = recCI.TravelId,
+                       TourId = recCI.TourId,
+                       TourName = recCI.Tour.TourName,
+                       Cost = recCI.Cost
+                    })
+                    .ToList()
                 })
                 .ToList();
             }

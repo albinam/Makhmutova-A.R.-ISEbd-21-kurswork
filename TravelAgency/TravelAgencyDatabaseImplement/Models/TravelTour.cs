@@ -9,9 +9,11 @@ namespace TravelAgencyDatabaseImplement.Models
     {
         public int Id { get; set; }
         [Required]
-        public int TravelId { get; set; }
+        public int? TravelId { get; set; }
         [Required]
         public int TourId { get; set; }
+        [Required]
+        public decimal Cost { get; set; }
         public virtual Tour Tour { get; set; }
         public virtual Travel Travel { get; set; }
     }
