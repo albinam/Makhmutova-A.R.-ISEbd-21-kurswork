@@ -51,7 +51,6 @@ namespace TravelAgencyView
                 model = new TravelTourViewModel
                 {
                     TourId = Convert.ToInt32(comboBoxTour.SelectedValue),
-                    TourName = comboBoxTour.Text,
                 };
             }
             MessageBox.Show("Сохранение прошло успешно", "Сообщение",

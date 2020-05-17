@@ -16,6 +16,8 @@ namespace TravelAgencyBusinessLogic.ViewModel
         [DataMember]
         public int TourId { get; set; }
         [DataMember]
+        public int TourName { get; set; }
+        [DataMember]
         [DisplayName("Количество")]
         public int Count { get; set; }
     }

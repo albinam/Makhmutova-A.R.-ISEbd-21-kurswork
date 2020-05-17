@@ -324,6 +324,12 @@
     <Compile Include="FormTravel.Designer.cs">
       <DependentUpon>FormTravel.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormTravels.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormTravels.Designer.cs">
+      <DependentUpon>FormTravels.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormTravelTour.cs">
       <SubType>Form</SubType>
     </Compile>

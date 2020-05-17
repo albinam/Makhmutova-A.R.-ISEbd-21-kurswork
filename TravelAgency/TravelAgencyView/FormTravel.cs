@@ -60,11 +60,11 @@ namespace TravelAgencyView
                 if (TravelTours != null)
                 {
                     dataGridView.DataSource = TravelTours;
-                   // dataGridView.Columns[0].Visible = false;
-                    //dataGridView.Columns[1].Visible = false;
-                   // dataGridView.Columns[2].Visible = false;
-                   // dataGridView.Columns[3].AutoSizeMode =
-                    //DataGridViewAutoSizeColumnMode.Fill;
+                    dataGridView.Columns[0].Visible = false;
+                    dataGridView.Columns[1].Visible = false;
+                   dataGridView.Columns[2].Visible = false;
+                    dataGridView.Columns[3].AutoSizeMode =
+                    DataGridViewAutoSizeColumnMode.Fill;
                 }
             }
             catch (Exception ex)
@@ -158,7 +158,7 @@ namespace TravelAgencyView
                         Id = TravelTours[i].Id,
                         TravelId = TravelTours[i].TravelId,
                         TourId = TravelTours[i].TourId,
-                        Cost = TravelTours[i].Cost
+                        Count = TravelTours[i].Count
                     });
                 }
                 logic.CreateOrUpdate(new TravelBindingModel

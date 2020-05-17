@@ -13,7 +13,9 @@ namespace TravelAgencyBusinessLogic.BindingModel
         [DataMember]
         public int? TravelId { get; set; }
         [DataMember]
-        public int TourId { get; set; }  
+        public int TourId { get; set; }
+        [DataMember]
+        public int TourName { get; set; }
         [DataMember]
         public int Count { get; set; }
     }
