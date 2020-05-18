@@ -32,7 +32,7 @@
             this.buttonUpd = new System.Windows.Forms.Button();
             this.buttonDel = new System.Windows.Forms.Button();
             this.buttonRef = new System.Windows.Forms.Button();
-            this.labelFood = new System.Windows.Forms.Label();
+            this.labelTour = new System.Windows.Forms.Label();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
             this.labelName = new System.Windows.Forms.Label();
@@ -90,15 +90,15 @@
             this.buttonRef.UseVisualStyleBackColor = true;
             this.buttonRef.Click += new System.EventHandler(this.buttonRef_Click);
             // 
-            // labelFood
+            // labelTour
             // 
-            this.labelFood.AutoSize = true;
-            this.labelFood.Location = new System.Drawing.Point(64, 86);
-            this.labelFood.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelFood.Name = "labelFood";
-            this.labelFood.Size = new System.Drawing.Size(57, 13);
-            this.labelFood.TabIndex = 7;
-            this.labelFood.Text = "Продукты";
+            this.labelTour.AutoSize = true;
+            this.labelTour.Location = new System.Drawing.Point(64, 86);
+            this.labelTour.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelTour.Name = "labelTour";
+            this.labelTour.Size = new System.Drawing.Size(57, 13);
+            this.labelTour.TabIndex = 7;
+            this.labelTour.Text = "Продукты";
             // 
             // buttonCancel
             // 
@@ -190,7 +190,7 @@
             // Column3
             // 
             this.Column3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Column3.HeaderText = "Цена";
+            this.Column3.HeaderText = "Количество";
             this.Column3.Name = "Column3";
             // 
             // FormTravel
@@ -205,7 +205,7 @@
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.labelName);
             this.Controls.Add(this.textBoxName);
-            this.Controls.Add(this.labelFood);
+            this.Controls.Add(this.labelTour);
             this.Controls.Add(this.buttonRef);
             this.Controls.Add(this.buttonDel);
             this.Controls.Add(this.buttonUpd);
@@ -225,7 +225,7 @@
         private System.Windows.Forms.Button buttonUpd;
         private System.Windows.Forms.Button buttonDel;
         private System.Windows.Forms.Button buttonRef;
-        private System.Windows.Forms.Label labelFood;
+        private System.Windows.Forms.Label labelTour;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.Label labelName;

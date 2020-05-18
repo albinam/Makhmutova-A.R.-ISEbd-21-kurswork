@@ -64,7 +64,7 @@ namespace TravelAgencyView
 
         private void путешествияToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormTravel>();
+            var form = Container.Resolve<FormTravels>();
             form.ShowDialog();
 
         }

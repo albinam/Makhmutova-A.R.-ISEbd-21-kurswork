@@ -46,24 +46,26 @@ namespace TravelAgencyDatabaseImplement.Implements
                         element.FinalCost = model.FinalCost;
                         element.Status = model.Status;
                         element.IsCredit = model.IsCredit;
-                        var groupTours = model.TravelTours
-                        .GroupBy(rec => rec.TourId)
-                        .Select(rec => new
+                        var tours = model.TravelTours
+                           .GroupBy(rec => rec.TourId)
+                          .Select(rec => new
+                          {
+                              TourId = rec.Key,
+                              Count = rec.Sum(r => r.Count)
+
+                          });
+                        foreach (var tour in tours)
                         {
-                            TourId = rec.Key,
-                            Count = rec.Sum(r => r.Count)
-                        });
-                        foreach (var groupTour in groupTours)
-                        {
-                            context.TravelTours.Add(new TravelTour
+                            var TravelProd = new TravelTour
                             {
                                 TravelId = element.Id,
-                                TourId = groupTour.TourId,
-                                Count = groupTour.Count
-                            });
+                                TourId = tour.TourId,
+                                Count = tour.Count
+                            };
+                            context.TravelTours.Add(TravelProd);
                             context.SaveChanges();
-                            transaction.Commit();
                         }
+                        transaction.Commit();
                     }
                     catch (Exception)
                     {
@@ -122,15 +124,26 @@ namespace TravelAgencyDatabaseImplement.Implements
                     IsCredit = rec.IsCredit,
                     ClientFIO = rec.Client.ClientFIO,
                     TravelTours = context.TravelTours
-                 .Where(recCI => recCI.TravelId == rec.Id)
-                 .Select(recCI => new TravelTourViewModel
-                   {
-                       Id = recCI.Id,
-                       TravelId = recCI.TravelId,
-                       TourId = recCI.TourId,
-                       Count = recCI.Count
-                    })
-                    .ToList()
+                 .Where(recTT => recTT.TravelId == rec.Id)
+                 .Select(recTT => new TravelTourViewModel
+                 {
+                     Id = recTT.Id,
+                     TravelId = recTT.TravelId,
+                     TourId = recTT.TourId,
+                     Count = recTT.Count
+                 })
+                    .ToList(),
+                    Payments = context.Payments
+                .Where(recPC => recPC.TravelId == rec.Id)
+                .Select(recPC => new PaymentViewModel
+                {
+                    Id = recPC.Id,
+                    TravelId = recPC.TravelId,
+                    ClientId = recPC.ClientId,
+                    DatePayment = recPC.DatePayment,
+                    Sum = recPC.Sum,
+                })
+                .ToList()
                 })
                 .ToList();
             }
