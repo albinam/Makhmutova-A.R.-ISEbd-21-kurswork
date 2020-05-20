@@ -18,7 +18,7 @@ namespace TravelAgencyDatabaseImplement.Models
         [Required]
         public string Country { get; set; }
         [Required]
-        public decimal Cost { get; set; }
+        public int Cost { get; set; }
         [ForeignKey("TourId")]
         public virtual List<TravelTour> TravelTours { get; set; }
     }

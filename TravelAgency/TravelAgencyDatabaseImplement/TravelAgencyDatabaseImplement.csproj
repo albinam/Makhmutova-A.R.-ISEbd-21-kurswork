@@ -1,8 +1,21 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20200515134051_InitialCreate.cs" />
+    <Compile Remove="Migrations\20200515134051_InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\20200519092552_InitialCreate.cs" />
+    <Compile Remove="Migrations\20200519092552_InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\20200520131508_InitialCreate.cs" />
+    <Compile Remove="Migrations\20200520131508_InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\20200520131816_InitialCreate.cs" />
+    <Compile Remove="Migrations\20200520131816_InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\20200520132300_InitialCreate.cs" />
+    <Compile Remove="Migrations\20200520132300_InitialCreate.Designer.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.3" />

@@ -20,6 +20,6 @@ namespace TravelAgencyBusinessLogic.ViewModel
         public DateTime DatePayment { get; set; }
         [DataMember]
         [DisplayName("Сумма оплаты")]
-        public decimal Sum { get; set; }
+        public int Sum { get; set; }
     }
 }

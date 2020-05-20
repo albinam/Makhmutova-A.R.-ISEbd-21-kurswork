@@ -15,7 +15,7 @@ namespace TravelAgencyBusinessLogic.ViewModel
         [DisplayName("Длительность")]
         public int Duration { get; set; }
         [DisplayName("Цена")]
-        public decimal Cost { get; set; }   
+        public int Cost { get; set; }   
         [DisplayName("Тип размещения")]
         public string TypeOfAllocation { get; set; }
     }

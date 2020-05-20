@@ -17,6 +17,6 @@ namespace TravelAgencyBusinessLogic.BindingModel
         [DataMember]
         public DateTime DatePayment { get; set; }
         [DataMember]
-        public decimal Sum { get; set; }
+        public int Sum { get; set; }
     }
 }

@@ -15,13 +15,13 @@ namespace TravelAgencyDatabaseImplement.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.4")
+                .HasAnnotation("ProductVersion", "3.1.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("TravelAgencyDatabaseImplement.Models.Client", b =>
                 {
-                    b.Property<int?>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -54,25 +54,70 @@ namespace TravelAgencyDatabaseImplement.Migrations
                     b.ToTable("Clients");
                 });
 
-            modelBuilder.Entity("TravelAgencyDatabaseImplement.Models.Payment", b =>
+            modelBuilder.Entity("TravelAgencyDatabaseImplement.Models.Order", b =>
                 {
-                    b.Property<int?>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("DatePayment")
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateOfBuying")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("Sum")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("FinalCost")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsCredit")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<int>("TravelId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ClientId");
+
                     b.HasIndex("TravelId");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("TravelAgencyDatabaseImplement.Models.Payment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DatePayment")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Sum")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TravelId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("OrderId");
 
                     b.ToTable("Payments");
                 });
@@ -84,8 +129,8 @@ namespace TravelAgencyDatabaseImplement.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<decimal>("Cost")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("Cost")
+                        .HasColumnType("int");
 
                     b.Property<string>("Country")
                         .IsRequired()
@@ -109,31 +154,18 @@ namespace TravelAgencyDatabaseImplement.Migrations
 
             modelBuilder.Entity("TravelAgencyDatabaseImplement.Models.Travel", b =>
                 {
-                    b.Property<int?>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int?>("ClientId")
-                        .IsRequired()
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("DateOfBuying")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateStart")
-                        .HasColumnType("datetime2");
 
                     b.Property<int>("Duration")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("FinalCost")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<bool>("IsCredit")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("Status")
+                    b.Property<int>("FinalCost")
                         .HasColumnType("int");
 
                     b.Property<string>("TravelName")
@@ -142,8 +174,7 @@ namespace TravelAgencyDatabaseImplement.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClientId")
-                        .IsUnique();
+                    b.HasIndex("ClientId");
 
                     b.ToTable("Travels");
                 });
@@ -155,14 +186,13 @@ namespace TravelAgencyDatabaseImplement.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<decimal>("Cost")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
 
                     b.Property<int>("TourId")
                         .HasColumnType("int");
 
                     b.Property<int?>("TravelId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -174,22 +204,39 @@ namespace TravelAgencyDatabaseImplement.Migrations
                     b.ToTable("TravelTours");
                 });
 
-            modelBuilder.Entity("TravelAgencyDatabaseImplement.Models.Payment", b =>
+            modelBuilder.Entity("TravelAgencyDatabaseImplement.Models.Order", b =>
                 {
+                    b.HasOne("TravelAgencyDatabaseImplement.Models.Client", "Client")
+                        .WithMany("Orders")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("TravelAgencyDatabaseImplement.Models.Travel", "Travel")
-                        .WithMany("Payments")
+                        .WithMany()
                         .HasForeignKey("TravelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TravelAgencyDatabaseImplement.Models.Travel", b =>
+            modelBuilder.Entity("TravelAgencyDatabaseImplement.Models.Payment", b =>
                 {
                     b.HasOne("TravelAgencyDatabaseImplement.Models.Client", "Client")
-                        .WithOne("Travel")
-                        .HasForeignKey("TravelAgencyDatabaseImplement.Models.Travel", "ClientId")
+                        .WithMany()
+                        .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("TravelAgencyDatabaseImplement.Models.Order", "Order")
+                        .WithMany("Payments")
+                        .HasForeignKey("OrderId");
+                });
+
+            modelBuilder.Entity("TravelAgencyDatabaseImplement.Models.Travel", b =>
+                {
+                    b.HasOne("TravelAgencyDatabaseImplement.Models.Client", null)
+                        .WithMany("Travels")
+                        .HasForeignKey("ClientId");
                 });
 
             modelBuilder.Entity("TravelAgencyDatabaseImplement.Models.TravelTour", b =>
@@ -202,9 +249,7 @@ namespace TravelAgencyDatabaseImplement.Migrations
 
                     b.HasOne("TravelAgencyDatabaseImplement.Models.Travel", "Travel")
                         .WithMany("TravelTours")
-                        .HasForeignKey("TravelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TravelId");
                 });
 #pragma warning restore 612, 618
         }

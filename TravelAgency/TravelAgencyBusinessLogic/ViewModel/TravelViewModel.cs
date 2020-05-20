@@ -11,33 +11,17 @@ namespace TravelAgencyBusinessLogic.ViewModel
     public class TravelViewModel
     {
         [DataMember]
-        public int Id { get; set; }
-        [DataMember]
-        public int ClientId { get; set; }
-        [DataMember]
-        [DisplayName("Клиент")]
-        public string ClientFIO { get; set; }
+        public int Id { get; set; }       
         [DataMember]
         [DisplayName("Название путешествия")]
         public string TravelName { get; set; }
         [DataMember]
         [DisplayName("Цена")]
-        public decimal FinalCost { get; set; }
+        public int FinalCost { get; set; }
         [DataMember]
         [DisplayName("Длительность")]
         public int Duration { get; set; }
-         [DataMember]
-        [DisplayName("Кредит")]
-        public bool IsCredit { get; set; }
-        [DataMember]
-        [DisplayName("Дата создания")]
-        public DateTime DateOfBuying { get; set; }
-        [DataMember]
-        [DisplayName("Статус")]
-        public TravelStatus Status { get; set; }
         [DataMember]
         public List<TravelTourViewModel> TravelTours { get; set; }
-        [DataMember]
-        public List<PaymentViewModel> Payments { get; set; }
     }
 }

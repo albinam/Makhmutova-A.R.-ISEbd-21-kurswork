@@ -25,6 +25,6 @@ namespace TravelAgencyDatabaseImplement.Models
         public virtual List<Travel> Travels { get; set; }
 
         [ForeignKey("ClientId")]
-        public virtual List<Payment> Payments { get; set; }
+        public virtual List<Order> Orders { get; set; }
     }
 }

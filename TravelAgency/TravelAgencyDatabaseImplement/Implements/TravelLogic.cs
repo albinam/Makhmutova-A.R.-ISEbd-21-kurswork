@@ -40,29 +40,35 @@ namespace TravelAgencyDatabaseImplement.Implements
                             element = new Travel();
                             context.Travels.Add(element);
                         }
-                        element.DateOfBuying = model.DateOfBuying;
-                        element.ClientId = model.ClientId;
+                        element.TravelName = model.TravelName;
                         element.Duration = model.Duration;
                         element.FinalCost = model.FinalCost;
-                        element.Status = model.Status;
-                        element.IsCredit = model.IsCredit;
-                        var tours = model.TravelTours
-                           .GroupBy(rec => rec.TourId)
-                          .Select(rec => new
-                          {
-                              TourId = rec.Key,
-                              Count = rec.Sum(r => r.Count)
-
-                          });
-                        foreach (var tour in tours)
+                        if (model.Id.HasValue)
                         {
-                            var TravelProd = new TravelTour
+                            var TravelTours = context.TravelTours.Where(rec
+                           => rec.TravelId == model.Id.Value).ToList();
+                            // удалили те, которых нет в модели
+                            context.TravelTours.RemoveRange(TravelTours.Where(rec =>
+                            !model.TravelTours.Contains(new TravelTourBindingModel { TourId = rec.TourId })).ToList());
+                            context.SaveChanges();
+                            // обновили количество у существующих записей
+                            foreach (var updateTour in TravelTours)
+                            {
+                                updateTour.Count =
+                               model.TravelTours[updateTour.TourId].Count;
+                                model.TravelTours.Remove(new TravelTourBindingModel { TourId = updateTour.TourId });
+                            }
+                            context.SaveChanges();
+                        }
+                        // добавили новые
+                        foreach (var tt in model.TravelTours)
+                        {
+                            context.TravelTours.Add(new TravelTour
                             {
                                 TravelId = element.Id,
-                                TourId = tour.TourId,
-                                Count = tour.Count
-                            };
-                            context.TravelTours.Add(TravelProd);
+                                TourId = tt.TourId,
+                                Count = tt.Count
+                            });
                             context.SaveChanges();
                         }
                         transaction.Commit();
@@ -115,14 +121,9 @@ namespace TravelAgencyDatabaseImplement.Implements
                 .Select(rec => new TravelViewModel
                 {
                     Id = rec.Id,
-                    DateOfBuying = rec.DateOfBuying,
                     TravelName = rec.TravelName,
-                    ClientId = rec.ClientId,
                     Duration = rec.Duration,
                     FinalCost = rec.FinalCost,
-                    Status = rec.Status,
-                    IsCredit = rec.IsCredit,
-                    ClientFIO = rec.Client.ClientFIO,
                     TravelTours = context.TravelTours
                  .Where(recTT => recTT.TravelId == rec.Id)
                  .Select(recTT => new TravelTourViewModel
@@ -132,18 +133,7 @@ namespace TravelAgencyDatabaseImplement.Implements
                      TourId = recTT.TourId,
                      Count = recTT.Count
                  })
-                    .ToList(),
-                    Payments = context.Payments
-                .Where(recPC => recPC.TravelId == rec.Id)
-                .Select(recPC => new PaymentViewModel
-                {
-                    Id = recPC.Id,
-                    TravelId = recPC.TravelId,
-                    ClientId = recPC.ClientId,
-                    DatePayment = recPC.DatePayment,
-                    Sum = recPC.Sum,
-                })
-                .ToList()
+                    .ToList(),                   
                 })
                 .ToList();
             }

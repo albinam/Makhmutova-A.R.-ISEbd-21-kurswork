@@ -19,6 +19,6 @@ namespace TravelAgencyBusinessLogic.BindingModel
         [DataMember]
         public string Country { get; set; }
         [DataMember]
-        public decimal Cost { get; set; }
+        public int Cost { get; set; }
     }
 }
