@@ -33,13 +33,26 @@ namespace TravelAgencyDatabaseImplement.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TourName = table.Column<string>(nullable: false),
                     TypeOfAllocation = table.Column<string>(nullable: false),
-                    Duration = table.Column<int>(nullable: false),
-                    Country = table.Column<string>(nullable: false),
-                    Cost = table.Column<int>(nullable: false)
+                    Country = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tours", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TravelTours",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TravelId = table.Column<int>(nullable: true),
+                    TourId = table.Column<int>(nullable: false),
+                    Count = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TravelTours", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -96,33 +109,6 @@ namespace TravelAgencyDatabaseImplement.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TravelTours",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    TravelId = table.Column<int>(nullable: true),
-                    TourId = table.Column<int>(nullable: false),
-                    Count = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TravelTours", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_TravelTours_Tours_TourId",
-                        column: x => x.TourId,
-                        principalTable: "Tours",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_TravelTours_Travels_TravelId",
-                        column: x => x.TravelId,
-                        principalTable: "Travels",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Payments",
                 columns: table => new
                 {
@@ -175,16 +161,6 @@ namespace TravelAgencyDatabaseImplement.Migrations
                 name: "IX_Travels_ClientId",
                 table: "Travels",
                 column: "ClientId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TravelTours_TourId",
-                table: "TravelTours",
-                column: "TourId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TravelTours_TravelId",
-                table: "TravelTours",
-                column: "TravelId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -193,13 +169,13 @@ namespace TravelAgencyDatabaseImplement.Migrations
                 name: "Payments");
 
             migrationBuilder.DropTable(
+                name: "Tours");
+
+            migrationBuilder.DropTable(
                 name: "TravelTours");
 
             migrationBuilder.DropTable(
                 name: "Orders");
-
-            migrationBuilder.DropTable(
-                name: "Tours");
 
             migrationBuilder.DropTable(
                 name: "Travels");

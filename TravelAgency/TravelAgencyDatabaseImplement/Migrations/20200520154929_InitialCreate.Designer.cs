@@ -10,7 +10,7 @@ using TravelAgencyDatabaseImplement;
 namespace TravelAgencyDatabaseImplement.Migrations
 {
     [DbContext(typeof(TravelAgencyDatabase))]
-    [Migration("20200520143445_InitialCreate")]
+    [Migration("20200520154929_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -131,15 +131,9 @@ namespace TravelAgencyDatabaseImplement.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Cost")
-                        .HasColumnType("int");
-
                     b.Property<string>("Country")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Duration")
-                        .HasColumnType("int");
 
                     b.Property<string>("TourName")
                         .IsRequired()
@@ -199,10 +193,6 @@ namespace TravelAgencyDatabaseImplement.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TourId");
-
-                    b.HasIndex("TravelId");
-
                     b.ToTable("TravelTours");
                 });
 
@@ -239,19 +229,6 @@ namespace TravelAgencyDatabaseImplement.Migrations
                     b.HasOne("TravelAgencyDatabaseImplement.Models.Client", null)
                         .WithMany("Travels")
                         .HasForeignKey("ClientId");
-                });
-
-            modelBuilder.Entity("TravelAgencyDatabaseImplement.Models.TravelTour", b =>
-                {
-                    b.HasOne("TravelAgencyDatabaseImplement.Models.Tour", "Tour")
-                        .WithMany("TravelTours")
-                        .HasForeignKey("TourId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TravelAgencyDatabaseImplement.Models.Travel", "Travel")
-                        .WithMany("TravelTours")
-                        .HasForeignKey("TravelId");
                 });
 #pragma warning restore 612, 618
         }

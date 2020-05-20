@@ -15,10 +15,6 @@ namespace TravelAgencyBusinessLogic.BindingModel
         [DataMember]
         public string TypeOfAllocation { get; set; }
         [DataMember]
-        public int Duration { get; set; }
-        [DataMember]
         public string Country { get; set; }
-        [DataMember]
-        public int Cost { get; set; }
     }
 }

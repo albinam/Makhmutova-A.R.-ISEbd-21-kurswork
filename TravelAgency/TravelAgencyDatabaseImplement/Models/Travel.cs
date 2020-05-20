@@ -16,7 +16,7 @@ namespace TravelAgencyDatabaseImplement.Models
         public int FinalCost { get; set; }
         [Required]
         public int Duration { get; set; }
-        [ForeignKey("TravelId")]
-        public virtual List<TravelTour> TravelTours { get; set; }
+      //  [ForeignKey("TravelId")]
+      //  public virtual List<TravelTour> TravelTours { get; set; }
     }
 }

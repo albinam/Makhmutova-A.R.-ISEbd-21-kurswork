@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TravelAgencyBusinessLogic.BindingModel;
+using TravelAgencyBusinessLogic.Interfaces;
 using TravelAgencyBusinessLogic.ViewModel;
 using TravelAgencyDatabaseImplement.Models;
 
 namespace TravelAgencyDatabaseImplement.Implements
 {
-    public class OrderLogic
+    public class OrderLogic : IOrderLogic
     {
         public void CreateOrUpdate(OrderBindingModel model)
         {

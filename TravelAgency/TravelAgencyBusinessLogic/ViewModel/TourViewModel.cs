@@ -12,10 +12,6 @@ namespace TravelAgencyBusinessLogic.ViewModel
         public string TourName { get; set; }
         [DisplayName("Страна")]
         public string Country { get; set; }
-        [DisplayName("Длительность")]
-        public int Duration { get; set; }
-        [DisplayName("Цена")]
-        public int Cost { get; set; }   
         [DisplayName("Тип размещения")]
         public string TypeOfAllocation { get; set; }
     }
