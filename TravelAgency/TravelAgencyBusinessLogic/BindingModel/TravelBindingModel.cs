@@ -12,9 +12,11 @@ namespace TravelAgencyBusinessLogic.BindingModel
         [DataMember]
         public int? Id { get; set; }
         [DataMember]
-        public string TravelName { get; set; }
+        public int ClientId { get; set; }
         [DataMember]
         public int Duration { get; set; }
+        [DataMember]
+        public DateTime DateOfBuying { get; set; }
         [DataMember]
         public int FinalCost { get; set; }
         [DataMember]

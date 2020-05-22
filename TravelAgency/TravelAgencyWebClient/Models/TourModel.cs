@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
+using TravelAgencyBusinessLogic.ViewModel;
 
-namespace TravelAgencyBusinessLogic.ViewModel
+namespace TravelAgencyWebClient.Models
 {
-    public class TourViewModel
+    public class TourModel
     {
         public int Id { get; set; }
         [DisplayName("Название тура")]

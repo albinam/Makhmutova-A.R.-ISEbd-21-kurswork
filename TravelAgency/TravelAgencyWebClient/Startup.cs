@@ -28,9 +28,9 @@ namespace TravelAgencyWebClient
         {
             services.AddControllersWithViews();
             services.AddTransient<IClientLogic, ClientLogic>();
-            services.AddTransient<IOrderLogic, OrderLogic>();
             services.AddTransient<IPaymentLogic, PaymentLogic>();
             services.AddTransient<ITravelLogic, TravelLogic>();
+            services.AddTransient<ITourLogic, TourLogic>();
             services.AddTransient<MainLogic>();
         }
 

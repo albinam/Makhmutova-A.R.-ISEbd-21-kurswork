@@ -13,6 +13,10 @@ namespace TravelAgencyBusinessLogic.BindingModel
         [DataMember]
         public string TourName { get; set; }
         [DataMember]
+        public int Duration { get; set; }
+        [DataMember]
+        public int Cost { get; set; }
+        [DataMember]
         public string TypeOfAllocation { get; set; }
         [DataMember]
         public string Country { get; set; }

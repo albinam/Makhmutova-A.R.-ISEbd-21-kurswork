@@ -14,77 +14,104 @@ namespace TravelAgencyDatabaseImplement.Implements
 {
     public class TravelLogic : ITravelLogic
     {
-        public List<Travel> Travels { get; set; }
-        public List<TravelTour> TravelTours { get; set; }
-        public TravelLogic()
+        public void CreateOrUpdate(TravelBindingModel model)
         {
-            Travels = LoadTravels();
-            TravelTours = LoadTravelTours();
-        }
-        private readonly string TravelFileName = "C://Users//Альбина//Desktop//универ//data//Travel.xml";
-        private readonly string TravelTourFileName = "C://Users//Альбина//Desktop//универ//data//TravelTour.xml";
-        private List<Travel> LoadTravels()
-        {
-            var list = new List<Travel>();
-            if (File.Exists(TravelFileName))
+            using (var context = new TravelAgencyDatabase())
             {
-                XDocument xDocument = XDocument.Load(TravelFileName);
-                var xElements = xDocument.Root.Elements("Travel").ToList();
-                foreach (var elem in xElements)
+                using (var transaction = context.Database.BeginTransaction())
                 {
-                    list.Add(new Travel
+                    try
                     {
-                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
-                        TravelName = elem.Element("TravelName").Value,
-                        FinalCost = Convert.ToInt32(elem.Element("FinalCost").Value),
-                        Duration = Convert.ToInt32(elem.Element("Duration").Value),
-                    });
+                        Travel element = model.Id.HasValue ? null : new Travel();
+                        if (model.Id.HasValue)
+                        {
+                            element = context.Travels.FirstOrDefault(rec => rec.Id ==
+                           model.Id);
+                            if (element == null)
+                            {
+                                throw new Exception("Элемент не найден");
+                            }
+                        }
+                        else
+                        {
+                            element.ClientId = model.ClientId;
+                            element.DateOfBuying = model.DateOfBuying;
+                            element.Duration = model.Duration;
+                            element.FinalCost = model.FinalCost;
+                            context.Travels.Add(element);
+                            context.SaveChanges();
+                            var groupTours = model.TravelTours
+                               .GroupBy(rec => rec.TourId)
+                               .Select(rec => new
+                               {
+                                   TourId = rec.Key,
+                                   Count = rec.Sum(r => r.Count)
+                               });
+
+                            foreach (var groupTour in groupTours)
+                            {
+                                context.TravelTours.Add(new TravelTour
+                                {
+                                    TravelId = element.Id,
+                                    TourId = groupTour.TourId,
+                                    Count = groupTour.Count
+                                });
+                                context.SaveChanges();
+                            }
+                        }
+                        transaction.Commit();
+                    }
+                    catch (Exception)
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
                 }
             }
-            return list;
         }
-        private List<TravelTour> LoadTravelTours()
+        public void Delete(TravelBindingModel model)
         {
-            var list = new List<TravelTour>();
-            if (File.Exists(TravelTourFileName))
+            using (var context = new TravelAgencyDatabase())
             {
-                XDocument xDocument = XDocument.Load(TravelTourFileName);
-                var xElements = xDocument.Root.Elements("TravelTour").ToList();
-                foreach (var elem in xElements)
+                Travel element = context.Travels.FirstOrDefault(rec => rec.Id == model.Id.Value);
+
+                if (element != null)
                 {
-                    list.Add(new TravelTour
-                    {
-                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
-                        TravelId = Convert.ToInt32(elem.Element("TravelId").Value),
-                        TourId = Convert.ToInt32(elem.Element("TourId").Value),
-                        Count = Convert.ToInt32(elem.Element("Count").Value)
-                    });
+                    context.Travels.Remove(element);
+                    context.SaveChanges();
+                }
+                else
+                {
+                    throw new Exception("Элемент не найден");
                 }
             }
-            return list;
         }
         public List<TravelViewModel> Read(TravelBindingModel model)
         {
-            return Travels.Where(rec => model == null
-                || rec.Id == model.Id && model.Id.HasValue)
-            .Select(rec => new TravelViewModel
+            using (var context = new TravelAgencyDatabase())
             {
-                Id = rec.Id,
-                TravelName = rec.TravelName,
-                Duration = rec.Duration,
-                FinalCost = rec.FinalCost,
-                TravelTours = TravelTours
-             .Where(recTT => recTT.TravelId == rec.Id)
-             .Select(recTT => new TravelTourViewModel
-             {
-                 Id = recTT.Id,
-                 TravelId = recTT.TravelId,
-                 TourId = recTT.TourId,
-                 Count = recTT.Count
-             })
+                return context.Travels.Where(rec => rec.Id == model.Id || rec.ClientId == model.ClientId)
+                .Select(rec => new TravelViewModel
+                {
+                    Id = rec.Id,
+                    ClientId = rec.ClientId,
+                    ClientFIO = rec.Client.ClientFIO,
+                    Duration = rec.Duration,
+                    FinalCost = rec.FinalCost,
+                    DateOfBuying = rec.DateOfBuying,
+                    TravelTours = context.TravelTours
+                .Where(recTT => recTT.TravelId == rec.Id)
+                .Select(recTT => new TravelTourViewModel
+                {
+                    Id = recTT.Id,
+                    TravelId = recTT.TravelId,
+                    TourId = recTT.TourId,
+                    Count = recTT.Count
+                })
                 .ToList(),
-            })
+                })
             .ToList();
+            }
         }
     }
 }

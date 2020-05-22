@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewData["Title"] = "Путешествия";
+}
+
+<h1>@ViewData["Title"]</h1>
+<a class="nav-link text-dark" asp-area="" asp-controller="travel" asp-action="CreateTravel">Оформить</a>
+
+@foreach (var travel in ViewBag.travels)
+{
+    <p>Номер: @travel.Id</p>
+    <p>Дата покупки: @travel.DateOfBuying</p>
+    <p>Статус: @travel.Status</p>
+    <p>Цена: @travel.FinalCost</p>
+    <p>Общая длительность: @travel.Duration</p>
+    <p>Состав:</p>
+    <table class="table">
+        <tr>
+            <td>Тур</td>
+            <td>Страна</td>
+            <td>Тип размещения</td>
+            <td>Длительность</td>
+            <td>Количество</td>
+            <td>Цена</td>
+        </tr>
+        @foreach (var tour in travel.TravelTours)
+        {
+            <tr>
+                <td>@tour.TourName</td>
+                <td>@tour.Country</td>
+                <td>@tour.TypeOfAllocation</td>
+                <td>@tour.Duration</td>
+                <td>@tour.Count</td>
+                <td>@tour.Cost</td>
+            </tr>
+        }
+    </table>
+    <hr />
+}

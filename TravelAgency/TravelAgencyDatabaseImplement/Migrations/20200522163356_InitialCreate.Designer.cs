@@ -10,7 +10,7 @@ using TravelAgencyDatabaseImplement;
 namespace TravelAgencyDatabaseImplement.Migrations
 {
     [DbContext(typeof(TravelAgencyDatabase))]
-    [Migration("20200520154929_InitialCreate")]
+    [Migration("20200522163356_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -56,43 +56,6 @@ namespace TravelAgencyDatabaseImplement.Migrations
                     b.ToTable("Clients");
                 });
 
-            modelBuilder.Entity("TravelAgencyDatabaseImplement.Models.Order", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ClientId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Count")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DateOfBuying")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("FinalCost")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsCredit")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TravelId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClientId");
-
-                    b.HasIndex("TravelId");
-
-                    b.ToTable("Orders");
-                });
-
             modelBuilder.Entity("TravelAgencyDatabaseImplement.Models.Payment", b =>
                 {
                     b.Property<int>("Id")
@@ -106,9 +69,6 @@ namespace TravelAgencyDatabaseImplement.Migrations
                     b.Property<DateTime>("DatePayment")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("OrderId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Sum")
                         .HasColumnType("int");
 
@@ -119,7 +79,7 @@ namespace TravelAgencyDatabaseImplement.Migrations
 
                     b.HasIndex("ClientId");
 
-                    b.HasIndex("OrderId");
+                    b.HasIndex("TravelId");
 
                     b.ToTable("Payments");
                 });
@@ -131,9 +91,15 @@ namespace TravelAgencyDatabaseImplement.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("Cost")
+                        .HasColumnType("int");
+
                     b.Property<string>("Country")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Duration")
+                        .HasColumnType("int");
 
                     b.Property<string>("TourName")
                         .IsRequired()
@@ -155,18 +121,17 @@ namespace TravelAgencyDatabaseImplement.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ClientId")
+                    b.Property<int>("ClientId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("DateOfBuying")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("Duration")
                         .HasColumnType("int");
 
                     b.Property<int>("FinalCost")
                         .HasColumnType("int");
-
-                    b.Property<string>("TravelName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -193,42 +158,48 @@ namespace TravelAgencyDatabaseImplement.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("TourId");
+
+                    b.HasIndex("TravelId");
+
                     b.ToTable("TravelTours");
-                });
-
-            modelBuilder.Entity("TravelAgencyDatabaseImplement.Models.Order", b =>
-                {
-                    b.HasOne("TravelAgencyDatabaseImplement.Models.Client", "Client")
-                        .WithMany("Orders")
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TravelAgencyDatabaseImplement.Models.Travel", "Travel")
-                        .WithMany()
-                        .HasForeignKey("TravelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("TravelAgencyDatabaseImplement.Models.Payment", b =>
                 {
                     b.HasOne("TravelAgencyDatabaseImplement.Models.Client", "Client")
-                        .WithMany()
+                        .WithMany("Payments")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TravelAgencyDatabaseImplement.Models.Order", "Order")
+                    b.HasOne("TravelAgencyDatabaseImplement.Models.Travel", "Travel")
                         .WithMany("Payments")
-                        .HasForeignKey("OrderId");
+                        .HasForeignKey("TravelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("TravelAgencyDatabaseImplement.Models.Travel", b =>
                 {
-                    b.HasOne("TravelAgencyDatabaseImplement.Models.Client", null)
+                    b.HasOne("TravelAgencyDatabaseImplement.Models.Client", "Client")
                         .WithMany("Travels")
-                        .HasForeignKey("ClientId");
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("TravelAgencyDatabaseImplement.Models.TravelTour", b =>
+                {
+                    b.HasOne("TravelAgencyDatabaseImplement.Models.Tour", "Tour")
+                        .WithMany()
+                        .HasForeignKey("TourId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TravelAgencyDatabaseImplement.Models.Travel", "Travel")
+                        .WithMany("TravelTours")
+                        .HasForeignKey("TravelId");
                 });
 #pragma warning restore 612, 618
         }

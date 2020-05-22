@@ -9,5 +9,7 @@ namespace TravelAgencyBusinessLogic.Interfaces
     public interface ITravelLogic
     {
         List<TravelViewModel> Read(TravelBindingModel model);
+        void CreateOrUpdate(TravelBindingModel model);
+        void Delete(TravelBindingModel model);
     }
 }

@@ -18,6 +18,5 @@ namespace TravelAgencyDatabaseImplement
         public virtual DbSet<TravelTour> TravelTours { set; get; }
         public virtual DbSet<Client> Clients { set; get; }
         public virtual DbSet<Payment> Payments { set; get; }
-        public virtual DbSet<Order> Orders { set; get; }
     }
 }

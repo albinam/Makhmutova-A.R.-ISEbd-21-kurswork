@@ -64,7 +64,7 @@ namespace TravelAgencyDatabaseImplement.Implements
             using (var context = new TravelAgencyDatabase())
             {
                 return context.Clients
-                 .Where(rec => (rec.Login == model.Login || rec.Email == model.Email)
+                 .Where(rec => (rec.Login == model.Login)
                         && (model.Password == null || rec.Password == model.Password))
                 .Select(rec => new ClientViewModel
                 {
@@ -75,7 +75,6 @@ namespace TravelAgencyDatabaseImplement.Implements
                     Password = rec.Password,
                     PhoneNumber=rec.PhoneNumber,
                     Block=rec.Block
-
                 })
                 .ToList();
             }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -32,6 +33,8 @@ namespace TravelAgencyDatabaseImplement.Implements
                     {
                         Id = Convert.ToInt32(elem.Attribute("Id").Value),
                         TourName = elem.Element("TourName").Value,
+                        Duration = Convert.ToInt32(elem.Element("Duration").Value),
+                        Cost= Convert.ToInt32(elem.Element("Cost").Value),
                         TypeOfAllocation = elem.Element("TypeOfAllocation").Value,
                         Country = elem.Element("Country").Value,
                     });
@@ -39,14 +42,43 @@ namespace TravelAgencyDatabaseImplement.Implements
             }
             return list;
         }
+        public void SaveToDatabase()
+        {
+            var tours = LoadTours();
+            using (var context = new TravelAgencyDatabase())
+            {
+                foreach (var tour in tours)
+                {
+                    Tour element = context.Tours.FirstOrDefault(rec => rec.Id == tour.Id);
+                    if (element != null)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        element = new Tour();
+                        context.Tours.Add(element);
+                    }
+                    element.TourName = tour.TourName;
+                    element.Duration = tour.Duration;
+                    element.TypeOfAllocation = tour.TypeOfAllocation;
+                    element.Country = tour.Country;
+                    element.Cost = tour.Cost;
+                    context.SaveChanges();
+                }
+            }
+        }
         public List<TourViewModel> Read(TourBindingModel model)
         {
+            SaveToDatabase();
             return Tours
             .Where(rec => model == null || rec.Id == model.Id)
             .Select(rec => new TourViewModel
             {
                 Id = rec.Id,
                 TourName = rec.TourName,
+                Duration=rec.Duration,
+                Cost=rec.Cost,
                 TypeOfAllocation = rec.TypeOfAllocation,
                 Country = rec.Country
             })

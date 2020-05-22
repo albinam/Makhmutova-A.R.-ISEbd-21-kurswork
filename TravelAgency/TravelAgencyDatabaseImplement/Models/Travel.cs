@@ -10,13 +10,17 @@ namespace TravelAgencyDatabaseImplement.Models
     public class Travel
     {
         public int Id { get; set; }
-        [Required]
-        public string TravelName { get; set; }
+        public int ClientId { get; set; }
         [Required]
         public int FinalCost { get; set; }
         [Required]
         public int Duration { get; set; }
-      //  [ForeignKey("TravelId")]
-      //  public virtual List<TravelTour> TravelTours { get; set; }
+        public DateTime DateOfBuying { get; set; }
+        [Required]
+        [ForeignKey("TravelId")]
+        public List<Payment> Payments { get; set; }
+        public Client Client { get; set; }
+        [ForeignKey("TravelId")]
+        public virtual List<TravelTour> TravelTours { get; set; }
     }
 }

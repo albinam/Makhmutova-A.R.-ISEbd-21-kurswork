@@ -15,7 +15,7 @@ namespace TravelAgencyDatabaseImplement.Models
         public DateTime DatePayment { get; set; }
         [Required]
         public int Sum { get; set; }
-        public virtual Order Order { get; set; }
+        public virtual Travel Travel { get; set; }
         public virtual Client Client { get; set; }
     }
 }

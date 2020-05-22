@@ -12,10 +12,12 @@ namespace TravelAgencyDatabaseImplement.Models
         [Required]
         public string TourName { get; set; }
         [Required]
+        public int Duration { get; set; }
+        [Required]
+        public int Cost { get; set; }
+        [Required]
         public string TypeOfAllocation { get; set; }
         [Required]
         public string Country { get; set; }
-      //  [ForeignKey("TourId")]
-       // public virtual List<TravelTour> TravelTours { get; set; }
     }
 }
