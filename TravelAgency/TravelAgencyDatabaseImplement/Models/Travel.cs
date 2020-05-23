@@ -16,11 +16,12 @@ namespace TravelAgencyDatabaseImplement.Models
         [Required]
         public int Duration { get; set; }
         public DateTime DateOfBuying { get; set; }
+        [ForeignKey("TravelId")]
+        public virtual List<TravelTour> TravelTours { get; set; }
         [Required]
         [ForeignKey("TravelId")]
         public List<Payment> Payments { get; set; }
         public Client Client { get; set; }
-        [ForeignKey("TravelId")]
-        public virtual List<TravelTour> TravelTours { get; set; }
+      
     }
 }

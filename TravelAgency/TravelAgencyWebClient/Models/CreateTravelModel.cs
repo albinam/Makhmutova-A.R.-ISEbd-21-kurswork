@@ -9,7 +9,6 @@ namespace TravelAgencyWebClient.Models
 {
     public class CreateTravelModel
     {
-        [Required]
         public Dictionary<int, int> TravelTours { get; set; }
     }
 }

@@ -100,7 +100,7 @@ namespace TravelAgencyDatabaseImplement.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TravelId = table.Column<int>(nullable: true),
                     TourId = table.Column<int>(nullable: false),
-                    Count = table.Column<int>(nullable: true)
+                    Count = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

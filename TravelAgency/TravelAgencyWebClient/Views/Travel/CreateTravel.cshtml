@@ -10,7 +10,7 @@
 {
     @Html.ValidationSummary()
     <p>Состав:</p>
-    <table>
+    <table class="table">
         <tr>
             <td>Тур</td>
             <td>Страна</td>
@@ -19,14 +19,14 @@
             <td>Количество</td>
             <td>Цена</td>
         </tr>
-        @foreach (TravelAgencyBusinessLogic.ViewModel.TourViewModel tour in ViewBag.Tours)
+        @foreach (TravelAgencyBusinessLogic.ViewModel.TourViewModel tour in ViewBag.TravelTours)
         {
             <tr>
                 <td>@tour.TourName</td>
                 <td>@tour.Country</td>
                 <td>@tour.TypeOfAllocation</td>
                 <td>@tour.Duration</td>
-                <td><input type="number" name="Model.TravelTours[@tour.Id]" min="0" /></td>
+                <td><input type="number" name="Model.TravelTours[@tour.Id]" value="0" /></td>
                 <td>@tour.Cost</td>
             </tr>
         }

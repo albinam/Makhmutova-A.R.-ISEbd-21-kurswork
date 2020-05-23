@@ -44,10 +44,10 @@ namespace TravelAgencyWebClient.Controllers
                         {
                             TourName = tourData.TourName,
                             Country = tourData.Country,
-                            TypeOfAllocation=tourData.TypeOfAllocation,
+                            TypeOfAllocation = tourData.TypeOfAllocation,
                             Count = tour.Count,
                             Cost = tour.Count * tourData.Cost,
-                            Duration=tourData.Duration * tour.Count
+                            Duration = tourData.Duration * tour.Count
                         });
                     }
                 }
@@ -68,7 +68,7 @@ namespace TravelAgencyWebClient.Controllers
         {
             ViewBag.TravelTours = _tourLogic.Read(null);
             return View();
-        }      
+        }
         [HttpPost]
         public ActionResult CreateTravel(CreateTravelModel model)
         {
@@ -82,11 +82,14 @@ namespace TravelAgencyWebClient.Controllers
 
             foreach (var tour in model.TravelTours)
             {
-                travelTours.Add(new TravelTourBindingModel
+                if (tour.Value > 0)
                 {
-                    TourId = tour.Key,
-                    Count = tour.Value
-                });
+                    travelTours.Add(new TravelTourBindingModel
+                    {
+                        TourId = tour.Key,
+                        Count = tour.Value
+                    });
+                }
             }
             _travelLogic.CreateOrUpdate(new TravelBindingModel
             {
@@ -94,7 +97,7 @@ namespace TravelAgencyWebClient.Controllers
                 DateOfBuying = DateTime.Now,
                 Status = TravelStatus.Принят,
                 FinalCost = CalculateSum(travelTours),
-                Duration=CalculateDuration(travelTours),
+                Duration = CalculateDuration(travelTours),
                 TravelTours = travelTours
             });
             return RedirectToAction("Travel");
@@ -109,7 +112,8 @@ namespace TravelAgencyWebClient.Controllers
 
                 if (tourData != null)
                 {
-                    sum += tourData.Cost;
+                    for (int i = 0; i < tour.Count; i++)
+                        sum += tourData.Cost;
                 }
             }
             return sum;
@@ -122,7 +126,8 @@ namespace TravelAgencyWebClient.Controllers
                 var tourData = _tourLogic.Read(new TourBindingModel { Id = tour.TourId }).FirstOrDefault();
                 if (tourData != null)
                 {
-                    duration += tourData.Duration;
+                    for (int i = 0; i < tour.Count; i++)
+                        duration += tourData.Duration;
                 }
             }
             return duration;
