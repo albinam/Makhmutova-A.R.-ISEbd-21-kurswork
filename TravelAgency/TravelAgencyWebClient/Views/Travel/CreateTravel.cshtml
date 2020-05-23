@@ -1,4 +1,4 @@
-﻿@model CreateTravelModel
+﻿@model TravelAgencyWebClient.Models.CreateTravelModel
 
 @{
     ViewData["Title"] = "Создать путешествие";
@@ -10,7 +10,7 @@
 {
     @Html.ValidationSummary()
     <p>Состав:</p>
-    <table class="table">
+    <table>
         <tr>
             <td>Тур</td>
             <td>Страна</td>
@@ -19,7 +19,7 @@
             <td>Количество</td>
             <td>Цена</td>
         </tr>
-        @foreach (TravelAgencyBusinessLogic.ViewModel.TourViewModel tour in ViewBag.TravelTours)
+        @foreach (TravelAgencyBusinessLogic.ViewModel.TourViewModel tour in ViewBag.Tours)
         {
             <tr>
                 <td>@tour.TourName</td>

@@ -10,7 +10,7 @@ using TravelAgencyDatabaseImplement;
 namespace TravelAgencyDatabaseImplement.Migrations
 {
     [DbContext(typeof(TravelAgencyDatabase))]
-    [Migration("20200522163356_InitialCreate")]
+    [Migration("20200522175952_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
