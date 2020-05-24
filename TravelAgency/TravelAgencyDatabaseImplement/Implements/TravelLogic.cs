@@ -31,6 +31,12 @@ namespace TravelAgencyDatabaseImplement.Implements
                             {
                                 throw new Exception("Элемент не найден");
                             }
+                            element.ClientId = model.ClientId;
+                            element.DateOfBuying = model.DateOfBuying;
+                            element.Duration = model.Duration;
+                            element.FinalCost = model.FinalCost;
+                            element.Status = model.Status;
+                            context.SaveChanges();
                         }
                         else
                         {
@@ -38,6 +44,7 @@ namespace TravelAgencyDatabaseImplement.Implements
                             element.DateOfBuying = model.DateOfBuying;
                             element.Duration = model.Duration;
                             element.FinalCost = model.FinalCost;
+                            element.Status = model.Status;
                             context.Travels.Add(element);
                             context.SaveChanges();
                             var groupTours = model.TravelTours
@@ -99,6 +106,7 @@ namespace TravelAgencyDatabaseImplement.Implements
                     Duration = rec.Duration,
                     FinalCost = rec.FinalCost,
                     DateOfBuying = rec.DateOfBuying,
+                    Status=rec.Status,
                     TravelTours = context.TravelTours
                 .Where(recTT => recTT.TravelId == rec.Id)
                 .Select(recTT => new TravelTourViewModel

@@ -15,11 +15,7 @@ namespace TravelAgencyDatabaseImplement.Implements
         {
             using (var context = new TravelAgencyDatabase())
             {
-                Payment element = context.Payments.FirstOrDefault(rec => rec.Id != model.Id);
-                if (element != null)
-                {
-                    throw new Exception("Уже есть платеж  с таким названием");
-                }
+                Payment element = model.Id.HasValue ? null : new Payment ();             
                 if (model.Id.HasValue)
                 {
                     element = context.Payments.FirstOrDefault(rec => rec.Id ==
@@ -63,7 +59,7 @@ namespace TravelAgencyDatabaseImplement.Implements
             using (var context = new TravelAgencyDatabase())
             {
                 return context.Payments
-                .Where(rec => model == null || rec.Id == model.Id)
+                .Where(rec => model == null || rec.Id == model.Id || rec.TravelId.Equals(model.TravelId))
                 .Select(rec => new PaymentViewModel
                 {
                     Id = rec.Id,

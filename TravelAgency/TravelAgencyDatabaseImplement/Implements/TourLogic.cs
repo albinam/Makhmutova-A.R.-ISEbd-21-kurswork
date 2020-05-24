@@ -14,7 +14,7 @@ namespace TravelAgencyDatabaseImplement.Implements
 {
     public class TourLogic : ITourLogic
     {
-        private readonly string TourFileName = "C://Users//Альбина//Desktop//универ//data//Tour.xml";
+        private readonly string TourFileName = "C://Users//Альбина//Desktop//универ//Makhmutova-A.R.-ISEbd-21-kurswork//TravelAgency//data//Tour.xml";
         public List<Tour> Tours { get; set; }
         public TourLogic()
         {

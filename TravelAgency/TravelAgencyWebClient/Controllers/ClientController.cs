@@ -17,6 +17,11 @@ namespace TravelAgencyWebClient.Controllers
         {
             _client = client;
         }
+        public ActionResult Profile()
+        {
+            ViewBag.User = Program.Client;
+            return View();
+        }
         public IActionResult Login()
         {
             return View();

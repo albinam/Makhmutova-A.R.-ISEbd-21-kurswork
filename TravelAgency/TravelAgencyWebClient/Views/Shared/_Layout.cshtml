@@ -9,7 +9,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-primary border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Туристическая фирма "Иван Сусанин"</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -22,11 +22,11 @@
                         @if (Program.Client != null)
                         {
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Client" asp-action="Profile">Профиль</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Client" asp-action="Profile">Личный кабинет</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Travel" asp-action="Travel">Заказы</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Travel" asp-action="Travel">Путешествия</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Tour" asp-action="Tour">Туры</a>

@@ -3,8 +3,10 @@
     ViewData["Title"] = "Путешествия";
 }
 
-<h1>@ViewData["Title"]</h1>
-<a class="nav-link text-dark" asp-area="" asp-controller="travel" asp-action="CreateTravel">Оформить</a>
+    <h1>
+        @ViewData["Title"]
+    <a class="nav-link text-primary" asp-area="" asp-controller="travel" asp-action="CreateTravel">Оформить</a>
+    </h1>
 
 @foreach (var travel in ViewBag.travels)
 {
@@ -35,5 +37,19 @@
             </tr>
         }
     </table>
+    <p>Сумма путешествия: @travel.FinalCost</p>
+    if (travel.Status == TravelAgencyBusinessLogic.Enums.TravelStatus.Оплачен)
+    {
+        <p>Полностью оплачено</p>
+    }
+    else
+    {
+        if (travel.Status == TravelAgencyBusinessLogic.Enums.TravelStatus.Оплачен_не_полностью)
+        {
+            <p>К оплате: @travel.LeftSum</p>
+        }
+
+        <a href="/Travel/Payment/@travel.Id">Оплатить</a>
+    }
     <hr />
 }

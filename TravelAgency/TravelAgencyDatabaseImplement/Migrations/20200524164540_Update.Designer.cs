@@ -10,8 +10,8 @@ using TravelAgencyDatabaseImplement;
 namespace TravelAgencyDatabaseImplement.Migrations
 {
     [DbContext(typeof(TravelAgencyDatabase))]
-    [Migration("20200523091251_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20200524164540_Update")]
+    partial class Update
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -131,6 +131,9 @@ namespace TravelAgencyDatabaseImplement.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("FinalCost")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

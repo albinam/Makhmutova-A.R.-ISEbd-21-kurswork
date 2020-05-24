@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TravelAgencyDatabaseImplement.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class Update : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -51,7 +51,8 @@ namespace TravelAgencyDatabaseImplement.Migrations
                     ClientId = table.Column<int>(nullable: false),
                     FinalCost = table.Column<int>(nullable: false),
                     Duration = table.Column<int>(nullable: false),
-                    DateOfBuying = table.Column<DateTime>(nullable: false)
+                    DateOfBuying = table.Column<DateTime>(nullable: false),
+                    Status = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
