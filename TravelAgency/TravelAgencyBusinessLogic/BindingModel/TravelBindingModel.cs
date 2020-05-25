@@ -23,5 +23,6 @@ namespace TravelAgencyBusinessLogic.BindingModel
         public TravelStatus Status { get; set; }
         [DataMember]
         public List<TravelTourBindingModel> TravelTours { get; set; }
+        public List<PaymentBindingModel> Payments { get; set; }
     }
 }

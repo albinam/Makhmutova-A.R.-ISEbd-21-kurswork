@@ -5,4 +5,13 @@
     <UserSecretsId>c79a06fd-3324-4be0-96e9-2a93167f8016</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="HelperModels\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DocumentFormat.OpenXml" Version="2.11.0" />
+    <PackageReference Include="PDFsharp-MigraDoc" Version="1.50.5147" />
+  </ItemGroup>
+
 </Project>

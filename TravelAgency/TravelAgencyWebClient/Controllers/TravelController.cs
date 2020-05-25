@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TravelAgencyBusinessLogic.BindingModel;
+using TravelAgencyBusinessLogic.BusinessLogic;
 using TravelAgencyBusinessLogic.Enums;
 using TravelAgencyBusinessLogic.Interfaces;
 using TravelAgencyBusinessLogic.ViewModel;
@@ -16,11 +17,13 @@ namespace TravelAgencyWebClient.Controllers
         private readonly ITravelLogic _travelLogic;
         private readonly ITourLogic _tourLogic;
         private readonly IPaymentLogic _paymentLogic;
-        public TravelController(ITravelLogic travelLogic, ITourLogic tourLogic, IPaymentLogic paymentLogic)
+        private readonly ReportLogic _reportLogic;
+        public TravelController(ITravelLogic travelLogic, ITourLogic tourLogic, IPaymentLogic paymentLogic, ReportLogic reportLogic)
         {
             _travelLogic = travelLogic;
             _tourLogic = tourLogic;
             _paymentLogic = paymentLogic;
+            _reportLogic = reportLogic;
         }
 
         public IActionResult Travel()
@@ -207,6 +210,20 @@ namespace TravelAgencyWebClient.Controllers
             }).Select(rec => rec.Sum).Sum();
 
             return sum - paidSum;
+        }
+        public IActionResult SendWordReport(int id)
+        {
+            var travel = _travelLogic.Read(new TravelBindingModel { Id = id }).FirstOrDefault();
+            string fileName = "D:\\data\\" + travel.Id + ".docx";
+            _reportLogic.SaveTravelToursToWordFile(fileName, travel, Program.Client.Email) ;
+            return RedirectToAction("Travel");
+        }
+        public IActionResult SendExcelReport(int id)
+        {
+            var travel = _travelLogic.Read(new TravelBindingModel { Id = id }).FirstOrDefault();
+            string fileName = "D:\\data\\" + travel.Id + ".xlsx";
+            _reportLogic.SaveTravelToursToExcelFile(fileName, travel, Program.Client.Email);
+            return RedirectToAction("Travel");
         }
     }
 }

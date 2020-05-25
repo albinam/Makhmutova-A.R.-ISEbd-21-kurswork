@@ -14,7 +14,7 @@ namespace TravelAgencyWebClient.Models
 
         [Required(ErrorMessage = "Пожалуйста, введите пароль")]
         [DataType(DataType.Password)]
-        [StringLength(50, ErrorMessage = "Поле {0} должно иметь минимум {2} и максимум {1} символов.", MinimumLength = 6)]
+        [StringLength(20, ErrorMessage = "Поле {0} должно иметь минимум {2} и максимум {1} символов.", MinimumLength = 6)]
         public string Password { get; set; }
 
         [Required(ErrorMessage = "Пожалуйста, введите E-Mail")]

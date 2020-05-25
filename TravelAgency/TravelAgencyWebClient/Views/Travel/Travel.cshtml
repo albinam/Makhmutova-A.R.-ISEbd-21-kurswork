@@ -3,10 +3,10 @@
     ViewData["Title"] = "Путешествия";
 }
 
-    <h1>
-        @ViewData["Title"]
+<h1>
+    @ViewData["Title"]
     <a class="nav-link text-primary" asp-area="" asp-controller="travel" asp-action="CreateTravel">Оформить</a>
-    </h1>
+</h1>
 
 @foreach (var travel in ViewBag.travels)
 {
@@ -48,8 +48,15 @@
         {
             <p>К оплате: @travel.LeftSum</p>
         }
-
-        <a href="/Travel/Payment/@travel.Id">Оплатить</a>
+        <p>
+            <a href="/Travel/Payment/@travel.Id">Оплатить</a>
+        </p>
     }
+    <p>
+        <a href="/Travel/SendWordReport/@travel.Id">Отправить список туров в формате .docx</a>
+    </p>
+    <p>
+        <a href="/Travel/SendExcelReport/@travel.Id">Отправить список туров в формате .xslx</a>
+    </p>
     <hr />
 }

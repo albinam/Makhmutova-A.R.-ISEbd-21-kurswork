@@ -31,7 +31,7 @@ namespace TravelAgencyWebClient
             services.AddTransient<IPaymentLogic, PaymentLogic>();
             services.AddTransient<ITravelLogic, TravelLogic>();
             services.AddTransient<ITourLogic, TourLogic>();
-            services.AddTransient<MainLogic>();
+            services.AddTransient<ReportLogic>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

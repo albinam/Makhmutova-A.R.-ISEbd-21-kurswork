@@ -117,6 +117,17 @@ namespace TravelAgencyDatabaseImplement.Implements
                     Count = recTT.Count
                 })
                 .ToList(),
+                    Payments = context.Payments
+                    .Where(recP => recP.TravelId == rec.Id)
+                .Select(recP => new PaymentViewModel
+                {
+                    Id = recP.Id,
+                    TravelId = recP.TravelId,
+                    ClientId = recP.ClientId,
+                    Sum = recP.Sum,
+                    DatePayment=recP.DatePayment
+                })
+                .ToList(),
                 })
             .ToList();
             }
