@@ -97,7 +97,7 @@ namespace TravelAgencyDatabaseImplement.Implements
         {
             using (var context = new TravelAgencyDatabase())
             {
-                return context.Travels.Where(rec => rec.Id == model.Id || rec.ClientId == model.ClientId)
+                return context.Travels.Where(rec => rec.Id == model.Id || (rec.ClientId == model.ClientId) && (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateOfBuying >= model.DateFrom && rec.DateOfBuying <= model.DateTo))
                 .Select(rec => new TravelViewModel
                 {
                     Id = rec.Id,
@@ -106,30 +106,37 @@ namespace TravelAgencyDatabaseImplement.Implements
                     Duration = rec.Duration,
                     FinalCost = rec.FinalCost,
                     DateOfBuying = rec.DateOfBuying,
-                    Status=rec.Status,
-                    TravelTours = context.TravelTours
-                .Where(recTT => recTT.TravelId == rec.Id)
-                .Select(recTT => new TravelTourViewModel
-                {
-                    Id = recTT.Id,
-                    TravelId = recTT.TravelId,
-                    TourId = recTT.TourId,
-                    Count = recTT.Count
-                })
-                .ToList(),
-                    Payments = context.Payments
-                    .Where(recP => recP.TravelId == rec.Id)
-                .Select(recP => new PaymentViewModel
-                {
-                    Id = recP.Id,
-                    TravelId = recP.TravelId,
-                    ClientId = recP.ClientId,
-                    Sum = recP.Sum,
-                    DatePayment=recP.DatePayment
-                })
-                .ToList(),
+                    PaidSum = context.Payments.Where(recP => recP.TravelId == recP.Id).Select(recP => recP.Sum).Sum(),
+                    Status = rec.Status,
+                    TravelTours = GetTravelTourViewModel(rec)
                 })
             .ToList();
+            }
+        }
+        public static List<TravelTourViewModel> GetTravelTourViewModel(Travel travel)
+        {
+            using (var context = new TravelAgencyDatabase())
+            {
+                var TravelTours = context.TravelTours
+                    .Where(rec => rec.TravelId == travel.Id)
+                    .Include(rec => rec.Tour)
+                    .Select(rec => new TravelTourViewModel
+                    {
+                        Id = rec.Id,
+                        TravelId = rec.TravelId,
+                        TourId = rec.TourId,
+                        Count = rec.Count
+                    }).ToList();
+                foreach (var tour in TravelTours)
+                {
+                    var tourData = context.Tours.Where(rec => rec.Id == tour.TourId).FirstOrDefault();
+                    tour.TourName = tourData.TourName;
+                    tour.TypeOfAllocation = tourData.TypeOfAllocation;
+                    tour.Country = tourData.Country;
+                    tour.Duration = tourData.Duration;
+                    tour.Cost = tourData.Cost;
+                }
+                return TravelTours;
             }
         }
     }

@@ -20,9 +20,14 @@ namespace TravelAgencyBusinessLogic.BindingModel
         [DataMember]
         public int FinalCost { get; set; }
         [DataMember]
+        public int PaidSum { get; set; }
+        [DataMember]
         public TravelStatus Status { get; set; }
         [DataMember]
+        public DateTime? DateFrom { get; set; }
+        [DataMember]
+        public DateTime? DateTo { get; set; }
+        [DataMember]
         public List<TravelTourBindingModel> TravelTours { get; set; }
-        public List<PaymentBindingModel> Payments { get; set; }
     }
 }

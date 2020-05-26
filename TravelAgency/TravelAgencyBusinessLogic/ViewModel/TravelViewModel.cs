@@ -29,8 +29,9 @@ namespace TravelAgencyBusinessLogic.ViewModel
         [DisplayName("Статус")]
         public TravelStatus Status { get; set; }
         [DataMember]
-        public List<TravelTourViewModel> TravelTours { get; set; }
+        [DisplayName("Оплачено")]
+        public int PaidSum { get; set; }
         [DataMember]
-        public List<PaymentViewModel> Payments { get; set; }
+        public List<TravelTourViewModel> TravelTours { get; set; }
     }
 }

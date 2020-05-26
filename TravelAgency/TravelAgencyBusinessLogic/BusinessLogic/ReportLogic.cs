@@ -15,10 +15,12 @@ namespace TravelAgencyBusinessLogic.BusinessLogic
     {
         private readonly ITourLogic tourLogic;
         private readonly ITravelLogic travelLogic;
-        public ReportLogic(ITourLogic tourLogic, ITravelLogic travelLogic)
+        private readonly IPaymentLogic paymentLogic;
+        public ReportLogic(ITourLogic tourLogic, ITravelLogic travelLogic, IPaymentLogic paymentLogic)
         {
             this.tourLogic = tourLogic;
             this.travelLogic = travelLogic;
+            this.paymentLogic = paymentLogic;
         }
         public List<TourViewModel> GetTravelTours(TravelViewModel travel)
         {
@@ -34,13 +36,36 @@ namespace TravelAgencyBusinessLogic.BusinessLogic
             }
             return tours;
         }
+        public Dictionary<int, List<PaymentViewModel>> GetTravelPayments(TravelBindingModel model)
+        {
+            var travels = travelLogic.Read(model).ToList();
+            Dictionary<int, List<PaymentViewModel>> payments = new Dictionary<int, List<PaymentViewModel>>();
+            foreach (var travel in travels)
+            {
+                var travelPayments = paymentLogic.Read(new PaymentBindingModel { TravelId = travel.Id }).ToList();
+                payments.Add(travel.Id, travelPayments);
+            }
+            return payments;
+        }
+        public void SaveTravelPaymentsToPdfFile(string fileName, TravelBindingModel travel, string email)
+        {
+            string title = "Список путешествий в период с " + travel.DateFrom.ToString() + " по " + travel.DateTo.ToString();
+            SaveToPdf.CreateDoc(new PdfInfo
+            {
+                FileName = fileName,
+                Title = title,
+                Travels = travelLogic.Read(travel).ToList(),
+                Payments = GetTravelPayments(travel)
+            });
+            SendMail(email, fileName, title);
+        }
         public void SaveTravelToursToWordFile(string fileName, TravelViewModel travel, string email)
         {
             string title = "Список туров по путешествию №" + travel.Id;
             SaveToWord.CreateDoc(new WordInfo
             {
                 FileName = fileName,
-                Title = "Список туров по путешествию №" + travel.Id,
+                Title = title,
                 Tours = GetTravelTours(travel)
             });
             SendMail(email, fileName, title);
