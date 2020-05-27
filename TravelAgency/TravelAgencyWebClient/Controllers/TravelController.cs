@@ -8,6 +8,7 @@ using TravelAgencyBusinessLogic.BusinessLogic;
 using TravelAgencyBusinessLogic.Enums;
 using TravelAgencyBusinessLogic.Interfaces;
 using TravelAgencyBusinessLogic.ViewModel;
+using TravelAgencyDatabaseImplement.Models;
 using TravelAgencyWebClient.Models;
 
 namespace TravelAgencyWebClient.Controllers
@@ -28,108 +29,44 @@ namespace TravelAgencyWebClient.Controllers
 
         public IActionResult Travel()
         {
-            var travels = _travelLogic.Read(new TravelBindingModel
+            ViewBag.Travels = _travelLogic.Read(new TravelBindingModel
             {
                 ClientId = Program.Client.Id
             });
-            var travelModels = new List<TravelModel>();
-            foreach (var travel in travels)
-            {
-                var tours = new List<TravelTourModel>();
-                foreach (var tour in travel.TravelTours)
-                {
-                    var tourData = _tourLogic.Read(new TourBindingModel
-                    {
-                        Id = tour.TourId
-                    }).FirstOrDefault();
-
-                    if (tourData != null)
-                    {
-                        tours.Add(new TravelTourModel
-                        {
-                            TourName = tourData.TourName,
-                            Country = tourData.Country,
-                            TypeOfAllocation = tourData.TypeOfAllocation,
-                            Count = tour.Count,
-                            Cost = tour.Count * tourData.Cost,
-                            Duration = tourData.Duration * tour.Count
-                        });
-                    }
-                }
-                travelModels.Add(new TravelModel
-                {
-                    Id = travel.Id,
-                    DateOfBuying = travel.DateOfBuying,
-                    Status = travel.Status,
-                    Duration = travel.Duration,
-                    FinalCost = travel.FinalCost,
-                    LeftSum = CalculateLeftSum(travel),
-                    TravelTours = tours
-                });
-            }
-            ViewBag.Travels = travelModels;
             return View();
         }
         [HttpPost]
         public IActionResult Travel(ReportModel model)
         {
-            var travels = _travelLogic.Read(new TravelBindingModel
+            var paymentList =new List<PaymentViewModel>();
+            var travels = new List<TravelViewModel>();
+            travels = _travelLogic.Read(new TravelBindingModel
             {
                 ClientId = Program.Client.Id,
                 DateFrom = model.From,
                 DateTo = model.To
             });
-            var travelModels = new List<TravelModel>();
-            foreach (var travel in travels)
+            var payments = _paymentLogic.Read(null);
+            foreach(var travel in travels)
             {
-                var tours = new List<TravelTourModel>();
-                foreach (var tour in travel.TravelTours)
+                foreach(var payment in payments)
                 {
-                    var tourData = _tourLogic.Read(new TourBindingModel
-                    {
-                        Id = tour.TourId
-                    }).FirstOrDefault();
-
-                    if (tourData != null)
-                    {
-                        tours.Add(new TravelTourModel
-                        {
-                            TourName = tourData.TourName,
-                            Country = tourData.Country,
-                            TypeOfAllocation = tourData.TypeOfAllocation,
-                            Count = tour.Count,
-                            Cost = tour.Count * tourData.Cost,
-                            Duration = tourData.Duration * tour.Count
-                        });
-                    }
+                    if (payment.ClientId == Program.Client.Id && payment.TravelId == travel.Id)
+                        paymentList.Add(payment);
                 }
-                travelModels.Add(new TravelModel
-                {
-                    Id = travel.Id,
-                    DateOfBuying = travel.DateOfBuying,
-                    Status = travel.Status,
-                    Duration = travel.Duration,
-                    FinalCost = travel.FinalCost,
-                    LeftSum = CalculateLeftSum(travel),
-                    TravelTours = tours
-                });
-                ViewBag.Payments = _paymentLogic.Read(new PaymentBindingModel
-                {
-                    TravelId = travel.Id,
-                    ClientId = Program.Client.Id
-                });
             }
-            ViewBag.Travels = travelModels;
+            ViewBag.Payments = paymentList;
+            ViewBag.Travels = travels;
             string fileName = "D:\\data\\pdfreport.pdf";
             if (model.SendMail)
             {
-                _reportLogic.SaveTravelPaymentsToPdfFile(fileName,new TravelBindingModel
+                _reportLogic.SaveTravelPaymentsToPdfFile(fileName, new TravelBindingModel
                 {
                     ClientId = Program.Client.Id,
                     DateFrom = model.From,
                     DateTo = model.To
                 }, Program.Client.Email);
-            }           
+            }
             return View();
         }
         public IActionResult CreateTravel()
@@ -249,7 +186,7 @@ namespace TravelAgencyWebClient.Controllers
                 Id = travel.Id,
                 ClientId = travel.ClientId,
                 DateOfBuying = travel.DateOfBuying,
-                Duration=travel.Duration,
+                Duration = travel.Duration,
                 Status = leftSum > 0 ? TravelStatus.Оплачен_не_полностью : TravelStatus.Оплачен,
                 FinalCost = travel.FinalCost,
                 TravelTours = travel.TravelTours.Select(rec => new TravelTourBindingModel
@@ -277,7 +214,7 @@ namespace TravelAgencyWebClient.Controllers
         {
             var travel = _travelLogic.Read(new TravelBindingModel { Id = id }).FirstOrDefault();
             string fileName = "D:\\data\\" + travel.Id + ".docx";
-            _reportLogic.SaveTravelToursToWordFile(fileName, travel, Program.Client.Email) ;
+            _reportLogic.SaveTravelToursToWordFile(fileName, travel, Program.Client.Email);
             return RedirectToAction("Travel");
         }
         public IActionResult SendExcelReport(int id)

@@ -20,7 +20,7 @@ namespace TravelAgencyBusinessLogic.BindingModel
         [DataMember]
         public int FinalCost { get; set; }
         [DataMember]
-        public int PaidSum { get; set; }
+        public int LeftSum { get; set; }
         [DataMember]
         public TravelStatus Status { get; set; }
         [DataMember]

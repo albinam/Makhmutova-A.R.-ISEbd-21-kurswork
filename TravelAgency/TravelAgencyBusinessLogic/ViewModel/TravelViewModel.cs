@@ -30,7 +30,7 @@ namespace TravelAgencyBusinessLogic.ViewModel
         public TravelStatus Status { get; set; }
         [DataMember]
         [DisplayName("Оплачено")]
-        public int PaidSum { get; set; }
+        public int LeftSum { get; set; }
         [DataMember]
         public List<TravelTourViewModel> TravelTours { get; set; }
     }

@@ -4,6 +4,7 @@ using MigraDoc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using TravelAgencyBusinessLogic.Enums;
 using TravelAgencyBusinessLogic.HelperModels;
 
 namespace TravelAgencyBusinessLogic.BusinessLogic
@@ -59,13 +60,26 @@ namespace TravelAgencyBusinessLogic.BusinessLogic
                     Style = "Normal",
                     ParagraphAlignment = ParagraphAlignment.Left
                 });
-                CreateRow(new PdfRowParameters
+                if (travel.Status == TravelStatus.Принят)
                 {
-                    Table = tourTable,
-                    Texts = new List<string> { "", "", "", "", "", "Оплачено:", travel.PaidSum.ToString() },
-                    Style = "Normal",
-                    ParagraphAlignment = ParagraphAlignment.Left
-                });
+                    CreateRow(new PdfRowParameters
+                    {
+                        Table = tourTable,
+                        Texts = new List<string> { "", "", "", "", "", "К оплате:", travel.FinalCost.ToString() },
+                        Style = "Normal",
+                        ParagraphAlignment = ParagraphAlignment.Left
+                    });
+                }
+                else
+                {
+                    CreateRow(new PdfRowParameters
+                    {
+                        Table = tourTable,
+                        Texts = new List<string> { "", "", "", "", "", "К оплате:", travel.LeftSum.ToString() },
+                        Style = "Normal",
+                        ParagraphAlignment = ParagraphAlignment.Left
+                    });
+                }
                 if (info.Payments[travel.Id].Count == 0)
                 {
                     continue;

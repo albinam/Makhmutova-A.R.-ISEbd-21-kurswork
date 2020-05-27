@@ -97,7 +97,7 @@ namespace TravelAgencyDatabaseImplement.Implements
         {
             using (var context = new TravelAgencyDatabase())
             {
-                return context.Travels.Where(rec => rec.Id == model.Id || (rec.ClientId == model.ClientId) && (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateOfBuying >= model.DateFrom && rec.DateOfBuying <= model.DateTo))
+                return context.Travels.Where(rec => rec.Id == model.Id || (rec.ClientId == model.ClientId) && (model.DateFrom==null && model.DateTo==null || rec.DateOfBuying >= model.DateFrom && rec.DateOfBuying <= model.DateTo))
                 .Select(rec => new TravelViewModel
                 {
                     Id = rec.Id,
@@ -106,7 +106,7 @@ namespace TravelAgencyDatabaseImplement.Implements
                     Duration = rec.Duration,
                     FinalCost = rec.FinalCost,
                     DateOfBuying = rec.DateOfBuying,
-                    PaidSum = context.Payments.Where(recP => recP.TravelId == recP.Id).Select(recP => recP.Sum).Sum(),
+                    LeftSum =rec.FinalCost - context.Payments.Where(recP => recP.TravelId == rec.Id).Select(recP => recP.Sum).Sum(),
                     Status = rec.Status,
                     TravelTours = GetTravelTourViewModel(rec)
                 })

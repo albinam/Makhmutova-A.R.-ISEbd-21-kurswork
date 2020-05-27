@@ -10,7 +10,7 @@
 @using (Html.BeginForm())
 {
     <p>
-        Выберите даты для отображения путешествий
+        Выберите даты для отображения отчета по путешествиям и оплатам
     </p>
     <p>
         От: @Html.EditorFor(model => model.From)
@@ -54,6 +54,26 @@
             </tr>
         }
     </table>
+    if (travel.Status != TravelAgencyBusinessLogic.Enums.TravelStatus.Принят && ViewBag.Payments!=null)
+    {
+        <p>Платежи:</p>
+        <table class="table">
+            <tr>
+                <td>Дата</td>
+                <td>Сумма</td>
+            </tr>
+            @foreach (var payment in ViewBag.Payments)
+            {
+                if (payment.TravelId == travel.Id)
+                {
+                    <tr>
+                        <td>@payment.DatePayment</td>
+                        <td>@payment.Sum</td>
+                    </tr>
+                }
+            }
+        </table>
+    }
     if (travel.Status == TravelAgencyBusinessLogic.Enums.TravelStatus.Оплачен)
     {
         <p>Полностью оплачено</p>
@@ -63,23 +83,7 @@
         if (travel.Status == TravelAgencyBusinessLogic.Enums.TravelStatus.Оплачен_не_полностью)
         {
             <p>К оплате: @travel.LeftSum</p>
-            if (ViewBag.Payments != null)
-            {
-                <p>Платежи:</p>
-                <table class="table">
-                    <tr>
-                        <td>Дата</td>
-                        <td>Сумма</td>
-                    </tr>
-                    @foreach (var payment in ViewBag.Payments)
-                    {
-                        <tr>
-                            <td>@payment.DatePayment</td>
-                            <td>@payment.Sum</td>
-                        </tr>
-                    }
-                </table>
-            }
+
         }
         <p>
             <a href="/Travel/Payment/@travel.Id">Оплатить</a>
@@ -92,4 +96,5 @@
         <a href="/Travel/SendExcelReport/@travel.Id">Отправить список туров в формате .xslx</a>
     </p>
     <hr />
+
 }
