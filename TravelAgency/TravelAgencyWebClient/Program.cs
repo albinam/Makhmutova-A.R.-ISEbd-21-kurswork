@@ -17,7 +17,7 @@ namespace TravelAgencyWebClient
         {
             CreateHostBuilder(args).Build().Run();
         }
-
+        public static bool AdminMode = false;
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>

@@ -39,6 +39,11 @@ namespace TravelAgencyWebClient.Controllers
                 ModelState.AddModelError("", "Вы ввели неверный пароль, либо пользователь не найден");
                 return View(client);
             }
+            if (clientView.Block == true)
+            {
+                ModelState.AddModelError("", "Пользователь заблокирован");
+                return View(client);
+            }
             Program.Client = clientView;
             return RedirectToAction("Index", "Home");
         }
@@ -76,12 +81,13 @@ namespace TravelAgencyWebClient.Controllers
                 }
                 _client.CreateOrUpdate(new ClientBindingModel
                 {
-                    ClientFIO=client.ClientFIO,
+                    ClientFIO = client.ClientFIO,
                     Login = client.Login,
                     Password = client.Password,
                     Email = client.Email,
-                    PhoneNumber = client.PhoneNumber
-                });
+                    PhoneNumber = client.PhoneNumber,
+                    Block = false
+                }) ;
                 ModelState.AddModelError("", "Вы успешно зарегистрированы");
                 return View("Registration", client);
             }

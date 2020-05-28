@@ -15,11 +15,7 @@ namespace TravelAgencyDatabaseImplement.Implements
         {
             using (var context = new TravelAgencyDatabase())
             {
-                Client element = context.Clients.FirstOrDefault(rec => rec.Login == model.Login && rec.Id != model.Id);
-                if (element != null)
-                {
-                    throw new Exception("Уже есть клиент с таким логином");
-                }
+                Client element = model.Id.HasValue ? null : new Client();                
                 if (model.Id.HasValue)
                 {
                     element = context.Clients.FirstOrDefault(rec => rec.Id == model.Id);
@@ -37,7 +33,7 @@ namespace TravelAgencyDatabaseImplement.Implements
                 element.Login = model.Login;
                 element.ClientFIO = model.ClientFIO;
                 element.PhoneNumber = model.PhoneNumber;
-                element.Block = false;
+                element.Block = model.Block;
                 element.Password = model.Password;
                 context.SaveChanges();
             }
@@ -64,9 +60,10 @@ namespace TravelAgencyDatabaseImplement.Implements
             using (var context = new TravelAgencyDatabase())
             {
                 return context.Clients
-                 .Where(rec => (rec.Login == model.Login)
-                        && (model.Password == null || rec.Password == model.Password))
-                .Select(rec => new ClientViewModel
+                 .Where(rec => model == null
+                   || rec.Id == model.Id
+                   || rec.Login == model.Login && rec.Password == model.Password)
+               .Select(rec => new ClientViewModel
                 {
                     Id = rec.Id,
                     Login=rec.Login,
