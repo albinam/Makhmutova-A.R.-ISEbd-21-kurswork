@@ -52,7 +52,6 @@ namespace TravelAgencyDatabaseImplement.Migrations
                     FinalCost = table.Column<int>(nullable: false),
                     Duration = table.Column<int>(nullable: false),
                     DateOfBuying = table.Column<DateTime>(nullable: false),
-                    PaidSum = table.Column<int>(nullable: false),
                     Status = table.Column<int>(nullable: false)
                 },
                 constraints: table =>

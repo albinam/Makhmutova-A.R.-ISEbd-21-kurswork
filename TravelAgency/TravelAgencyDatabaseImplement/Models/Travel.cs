@@ -16,7 +16,6 @@ namespace TravelAgencyDatabaseImplement.Models
         [Required]
         public int Duration { get; set; }
         public DateTime DateOfBuying { get; set; }
-        public int PaidSum { get; set; }
         public TravelStatus Status { get; set; }
         [ForeignKey("TravelId")]
         public virtual List<TravelTour> TravelTours { get; set; }

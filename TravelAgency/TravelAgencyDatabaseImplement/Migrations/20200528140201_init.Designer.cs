@@ -10,7 +10,7 @@ using TravelAgencyDatabaseImplement;
 namespace TravelAgencyDatabaseImplement.Migrations
 {
     [DbContext(typeof(TravelAgencyDatabase))]
-    [Migration("20200526101038_init")]
+    [Migration("20200528140201_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -131,9 +131,6 @@ namespace TravelAgencyDatabaseImplement.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("FinalCost")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PaidSum")
                         .HasColumnType("int");
 
                     b.Property<int>("Status")

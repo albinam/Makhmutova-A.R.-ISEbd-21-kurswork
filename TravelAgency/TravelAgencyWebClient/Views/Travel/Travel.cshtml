@@ -5,8 +5,8 @@
 
 <h1>
     @ViewData["Title"]
-    <a class="nav-link text-primary" asp-area="" asp-controller="travel" asp-action="CreateTravel">Оформить</a>
 </h1>
+<p> <strong> <a class="nav-link text-primary" asp-area="" asp-controller="travel" asp-action="CreateTravel">Оформить</a></strong></a></p>
 @using (Html.BeginForm())
 {
     <p>
@@ -39,8 +39,8 @@
             <td>Страна</td>
             <td>Тип размещения</td>
             <td>Длительность</td>
-            <td>Количество</td>
             <td>Цена</td>
+            <td>Количество</td>
         </tr>
         @foreach (var tour in travel.TravelTours)
         {
@@ -49,12 +49,12 @@
                 <td>@tour.Country</td>
                 <td>@tour.TypeOfAllocation</td>
                 <td>@tour.Duration</td>
-                <td>@tour.Count</td>
                 <td>@tour.Cost</td>
+                <td>@tour.Count</td>
             </tr>
         }
     </table>
-    if (travel.Status != TravelAgencyBusinessLogic.Enums.TravelStatus.Принят && ViewBag.Payments!=null)
+    if (travel.Status != TravelAgencyBusinessLogic.Enums.TravelStatus.Принят && ViewBag.Payments != null)
     {
         <p>Платежи:</p>
         <table class="table">

@@ -131,9 +131,6 @@ namespace TravelAgencyDatabaseImplement.Migrations
                     b.Property<int>("FinalCost")
                         .HasColumnType("int");
 
-                    b.Property<int>("PaidSum")
-                        .HasColumnType("int");
-
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
