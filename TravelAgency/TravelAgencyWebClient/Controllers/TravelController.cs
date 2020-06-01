@@ -77,12 +77,18 @@ namespace TravelAgencyWebClient.Controllers
         [HttpPost]
         public ActionResult CreateTravel(CreateTravelModel model)
         {
-            if (!ModelState.IsValid)
+             if (!ModelState.IsValid)
+              {
+                  ViewBag.TravelTours = _tourLogic.Read(null);
+                  return View(model);
+              }
+
+            if (model.TravelTours == null)
             {
                 ViewBag.TravelTours = _tourLogic.Read(null);
+                ModelState.AddModelError("", "Ни один тур не выбран");
                 return View(model);
             }
-
             var travelTours = new List<TravelTourBindingModel>();
 
             foreach (var tour in model.TravelTours)

@@ -3,12 +3,18 @@
 @{
     ViewData["Title"] = "Авторизация";
 }
-<h1>@ViewData["Title"]</h1>
+<div class="text-left text-info">
+    <h1>@ViewData["Title"]</h1>
+</div>
 
 @using (Html.BeginForm())
 {
-    @Html.ValidationSummary()
-    <p>Логин: @Html.EditorFor(x => x.Login)</p>
-    <p>Пароль: @Html.EditorFor(x => x.Password)</p>
-    <button type="submit">Войти</button>
+    @Html.ValidationSummary(true, "", new { @style = "color: red" })
+    <p>
+        Логин:<br>
+        @Html.EditorFor(x => x.Login)<br>
+        Пароль:<br>
+        @Html.EditorFor(x => x.Password)
+    </p>
+    <button class="btn btn-info btn-sm" type="submit">Войти</button>
 }

@@ -1,12 +1,14 @@
 ﻿@{
     ViewData["Title"] = "Блокировка";
 }
-
-<h1>Блокировка</h1>
+<div class="text-center text-info">
+    <h1>Блокировка</h1>
+</div>
+<hr/>
 @using (Html.BeginForm())
 {
     <table class="table">
-        <tr>
+        <tr bgcolor="#0fa3b9">
             <td>Логин</td>
             <td>Клиент</td>
             <td>Почта</td>
@@ -20,12 +22,12 @@
                 <td>@client.ClientFIO</td>
                 <td>@client.Email</td>
                 <td>
-                    @client.Block</td>
+                    @client.Block
+                </td>
                 <td>
                     <a href="/Admin/Block/@client.Id">Заблокировать/разблокировать</a>
-                </td>               
+                </td>
             </tr>
-
         }
     </table>
 }

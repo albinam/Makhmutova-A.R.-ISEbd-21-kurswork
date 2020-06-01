@@ -3,12 +3,13 @@
 @{
     ViewData["Title"] = "Создать путешествие";
 }
-
-<h1>@ViewData["Title"]</h1>
-
+<div class="text-center text-info">
+    <h1>@ViewData["Title"]</h1>
+</div>
+<hr />
 @using (Html.BeginForm())
 {
-    @Html.ValidationSummary()
+    @Html.ValidationSummary(true, "", new { @style = "color: red" })
     <p>Состав:</p>
     <table class="table">
         <tr>
@@ -18,7 +19,7 @@
             <td>Длительность</td>
             <td>Количество</td>
             <td>Цена</td>
-        </tr>
+        </tr>}
         @foreach (TravelAgencyBusinessLogic.ViewModel.TourViewModel tour in ViewBag.TravelTours)
         {
             <tr>
@@ -26,11 +27,10 @@
                 <td>@tour.Country</td>
                 <td>@tour.TypeOfAllocation</td>
                 <td>@tour.Duration</td>
-                <td><input type="number" name="Model.TravelTours[@tour.Id]" value="0" /></td>
+                <td><input type="number" name="Model.TravelTours[@tour.Id]" value="0" min="0" /></td>
                 <td>@tour.Cost</td>
             </tr>
         }
     </table>
-
-    <button type="submit">Создать</button>
+    <button type="submit" class="btn btn-info btn-sm">Создать</button>
 }

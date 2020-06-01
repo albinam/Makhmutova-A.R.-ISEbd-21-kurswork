@@ -3,10 +3,12 @@
     ViewData["Title"] = "Путешествия";
 }
 
-<h1>
-    @ViewData["Title"]
-</h1>
-<p> <strong> <a class="nav-link text-primary" asp-area="" asp-controller="travel" asp-action="CreateTravel">Оформить</a></strong></a></p>
+<div class="text-center text-info">
+    <h1>Путешествия</h1>
+</div>
+<hr />
+<p> <strong> <a class="btn btn-info btn-sm" asp-area="" asp-controller="travel" asp-action="CreateTravel">Оформить</a></strong></p>
+<hr />
 @using (Html.BeginForm())
 {
     <p>
@@ -22,9 +24,10 @@
         @Html.EditorFor(model => model.SendMail) Отправить отчёт по путешествиям и оплатам на почту
     </p>
     <p>
-        <button type="submit">Получить</button>
+        <button type="submit" class="btn btn-info btn-sm">Получить</button>
     </p>
 }
+<hr />
 @foreach (var travel in ViewBag.travels)
 {
     <p><strong>Номер: @travel.Id </strong></p>
@@ -74,15 +77,18 @@
             }
         </table>
     }
+    <hr />
     if (travel.Status == TravelAgencyBusinessLogic.Enums.TravelStatus.Оплачен)
     {
         <p>Полностью оплачено</p>
+        <hr />
     }
     else
     {
         if (travel.Status == TravelAgencyBusinessLogic.Enums.TravelStatus.Оплачен_не_полностью)
         {
             <p>К оплате: @travel.LeftSum</p>
+            <hr />
 
         }
         <p>
