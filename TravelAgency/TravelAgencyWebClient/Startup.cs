@@ -31,6 +31,7 @@ namespace TravelAgencyWebClient
             services.AddTransient<IPaymentLogic, PaymentLogic>();
             services.AddTransient<ITravelLogic, TravelLogic>();
             services.AddTransient<ITourLogic, TourLogic>();
+            services.AddTransient<BackUpAbstractLogic, BackUpLogic>();
             services.AddTransient<ReportLogic>();
         }
 
