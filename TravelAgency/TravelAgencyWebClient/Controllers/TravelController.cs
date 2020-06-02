@@ -38,7 +38,7 @@ namespace TravelAgencyWebClient.Controllers
         [HttpPost]
         public IActionResult Travel(ReportModel model)
         {
-            var paymentList =new List<PaymentViewModel>();
+            var paymentList = new List<PaymentViewModel>();
             var travels = new List<TravelViewModel>();
             travels = _travelLogic.Read(new TravelBindingModel
             {
@@ -47,9 +47,9 @@ namespace TravelAgencyWebClient.Controllers
                 DateTo = model.To
             });
             var payments = _paymentLogic.Read(null);
-            foreach(var travel in travels)
+            foreach (var travel in travels)
             {
-                foreach(var payment in payments)
+                foreach (var payment in payments)
                 {
                     if (payment.ClientId == Program.Client.Id && payment.TravelId == travel.Id)
                         paymentList.Add(payment);
@@ -77,20 +77,12 @@ namespace TravelAgencyWebClient.Controllers
         [HttpPost]
         public ActionResult CreateTravel(CreateTravelModel model)
         {
-             if (!ModelState.IsValid)
-              {
-                  ViewBag.TravelTours = _tourLogic.Read(null);
-                  return View(model);
-              }
-
-            if (model.TravelTours == null)
+            if (!ModelState.IsValid)
             {
                 ViewBag.TravelTours = _tourLogic.Read(null);
-                ModelState.AddModelError("", "Ни один тур не выбран");
                 return View(model);
-            }
+            }          
             var travelTours = new List<TravelTourBindingModel>();
-
             foreach (var tour in model.TravelTours)
             {
                 if (tour.Value > 0)
@@ -104,7 +96,7 @@ namespace TravelAgencyWebClient.Controllers
             }
             if (travelTours.Count == 0)
             {
-                ViewBag.Products = _tourLogic.Read(null);
+                ViewBag.TravelTours = _tourLogic.Read(null);
                 ModelState.AddModelError("", "Ни один тур не выбран");
                 return View(model);
             }
@@ -205,7 +197,6 @@ namespace TravelAgencyWebClient.Controllers
             });
             return RedirectToAction("Travel");
         }
-
         private int CalculateLeftSum(TravelViewModel travel)
         {
             int sum = travel.FinalCost;
