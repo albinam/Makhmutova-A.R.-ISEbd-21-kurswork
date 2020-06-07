@@ -59,5 +59,10 @@ namespace TravelAgencyWebClient.Controllers
             }
             return RedirectToAction("Blocking");
         }
+        public IActionResult Logout()
+        {
+            Program.AdminMode = false;
+            return RedirectToAction("Index", "Home");
+        }
     }
 }

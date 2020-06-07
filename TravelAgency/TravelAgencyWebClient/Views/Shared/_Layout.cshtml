@@ -33,13 +33,22 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="BackUp" asp-action="BackUp">Бэкап</a>
-                            </li>
-                            <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Client" asp-action="Logout">Выйти</a>
                             </li>
                         }
-                        else
+                        @if (Program.AdminMode == true)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Blocking">Блокировка</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="BackUp" asp-action="BackUp">Бэкап</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Logout">Выйти</a>
+                            </li>
+                        }
+                        @if (Program.Client == null && Program.AdminMode == false)
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Client" asp-action="Login">Вход</a>
