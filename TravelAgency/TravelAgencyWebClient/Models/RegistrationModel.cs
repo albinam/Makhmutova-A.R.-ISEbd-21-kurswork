@@ -8,23 +8,16 @@ namespace TravelAgencyWebClient.Models
 {
     public class RegistrationModel
     {
-        [Required(ErrorMessage = "Пожалуйста, введите логин")]
-        [StringLength(50, ErrorMessage = "Логин должен содержать от 1 до 50 символов", MinimumLength = 1)]
+        [Required]
         public string Login { get; set; }
-
-        [Required(ErrorMessage = "Пожалуйста, введите пароль")]
+        [Required]
         [DataType(DataType.Password)]
-        [StringLength(20, ErrorMessage = "Поле {0} должно иметь минимум {2} и максимум {1} символов.", MinimumLength = 6)]
         public string Password { get; set; }
-
-        [Required(ErrorMessage = "Пожалуйста, введите E-Mail")]
-        [EmailAddress(ErrorMessage = "Вы ввели некорректный E-Mail")]
+        [Required]
         public string Email { get; set; }
-
-        [Required(ErrorMessage = "Пожалуйста, введите телефон")]
-        [RegularExpression(@"^([\+]?(?:00)?[0-9]{1,3}[\s.-]?[0-9]{1,12})([\s.-]?[0-9]{1,4}?)$", ErrorMessage = "Вы ввели некорректный номер телефона")]
+        [Required]
         public string PhoneNumber { get; set; }
-        [Required(ErrorMessage = "Пожалуйста, введите ФИО")]
+        [Required]
         public string ClientFIO { get; set; }
     }
 }

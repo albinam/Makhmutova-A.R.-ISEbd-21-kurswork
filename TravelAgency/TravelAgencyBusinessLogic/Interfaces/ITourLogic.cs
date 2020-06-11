@@ -9,5 +9,6 @@ namespace TravelAgencyBusinessLogic.Interfaces
     public interface ITourLogic
     {
         List<TourViewModel> Read(TourBindingModel model);
+        void SaveToDatabase();
     }
 }

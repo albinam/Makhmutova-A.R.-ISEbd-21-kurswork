@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TravelAgencyBusinessLogic.BindingModel;
@@ -12,7 +13,10 @@ namespace TravelAgencyWebClient.Controllers
     public class ClientController : Controller
     {
         private readonly IClientLogic _client;
-
+        private readonly int passwordMinLength = 6;
+        private readonly int passwordMaxLength = 20;
+        private readonly int loginMinLength = 1;
+        private readonly int loginMaxLength = 50;
         public ClientController(IClientLogic client)
         {
             _client = client;
@@ -59,39 +63,77 @@ namespace TravelAgencyWebClient.Controllers
         [HttpPost]
         public ViewResult Registration(RegistrationModel client)
         {
-            if (ModelState.IsValid)
+            if (String.IsNullOrEmpty(client.Login))
             {
-                var existClient = _client.Read(new ClientBindingModel
-                {
-                    Login = client.Login
-                }).FirstOrDefault();
-                if (existClient != null)
-                {
-                    ModelState.AddModelError("", "Данный логин уже занят");
-                    return View(client);
-                }
-                existClient = _client.Read(new ClientBindingModel
-                {
-                    Email = client.Email
-                }).FirstOrDefault();
-                if (existClient != null)
-                {
-                    ModelState.AddModelError("", "Данный E-Mail уже занят");
-                    return View(client);
-                }
-                _client.CreateOrUpdate(new ClientBindingModel
-                {
-                    ClientFIO = client.ClientFIO,
-                    Login = client.Login,
-                    Password = client.Password,
-                    Email = client.Email,
-                    PhoneNumber = client.PhoneNumber,
-                    Block = false
-                }) ;
-                ModelState.AddModelError("", "Вы успешно зарегистрированы");
-                return View("Registration", client);
+                ModelState.AddModelError("", "Введите логин");
+                return View(client);
             }
-            return View(client);
+            if (client.Login.Length > loginMaxLength ||
+           client.Login.Length < loginMinLength)
+            {
+                ModelState.AddModelError("", $"Длина логина должна быть от {loginMinLength} до {loginMaxLength} символов");
+                return View(client);
+            }
+            var existClient = _client.Read(new ClientBindingModel
+            {
+                Login = client.Login
+            }).FirstOrDefault();
+            if (existClient != null)
+            {
+                ModelState.AddModelError("", "Данный логин уже занят");
+                return View(client);
+            }
+            if (String.IsNullOrEmpty(client.Email))
+            {
+                ModelState.AddModelError("", "Введите электронную почту");
+                return View(client);
+            }
+            existClient = _client.Read(new ClientBindingModel
+            {
+                Email = client.Email
+            }).FirstOrDefault();
+            if (existClient != null)
+            {
+                ModelState.AddModelError("", "Данный Email уже занят");
+                return View(client);
+            }
+            if (!Regex.IsMatch(client.Email, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$"))
+            {
+                ModelState.AddModelError("", "Email введен некорректно");
+                return View(client);
+            }
+            if (client.Password.Length > passwordMaxLength ||
+            client.Password.Length < passwordMinLength)
+            {            
+                ModelState.AddModelError("", $"Длина пароля должна быть от {passwordMinLength} до {passwordMaxLength} символов");
+                return View(client);
+            }
+            if (String.IsNullOrEmpty(client.ClientFIO))
+            {
+                ModelState.AddModelError("", "Введите ФИО");
+                return View(client);
+            }
+            if (String.IsNullOrEmpty(client.Password))
+            {
+                ModelState.AddModelError("", "Введите пароль");
+                return View(client);
+            }
+            if (String.IsNullOrEmpty(client.PhoneNumber))
+            {
+                ModelState.AddModelError("", "Введите номер телефона");
+                return View(client);
+            }
+            _client.CreateOrUpdate(new ClientBindingModel
+            {
+                ClientFIO = client.ClientFIO,
+                Login = client.Login,
+                Password = client.Password,
+                Email = client.Email,
+                PhoneNumber = client.PhoneNumber,
+                Block = false
+            });
+            ModelState.AddModelError("", "Вы успешно зарегистрированы");
+            return View("Registration", client);
         }
     }
 }
