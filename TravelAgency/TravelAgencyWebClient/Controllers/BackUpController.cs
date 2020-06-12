@@ -22,7 +22,7 @@ namespace TravelAgencyWebClient.Controllers
         }
         public IActionResult BackUpToJson()
         {
-            string fileName = "C:\\Users\\Альбина\\Desktop\\бэкап\\бэкап";
+            string fileName = "D:\\data\\бэкап\\бэкап";
             if (Directory.Exists(fileName))
             {
                 _backUp.CreateArchive(fileName);
