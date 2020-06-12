@@ -9,7 +9,7 @@
 
 @using (Html.BeginForm())
 {
-    @Html.ValidationSummary(true, "", new { @style = "color: red" })
+    @Html.ValidationSummary()
     <p>
         Пароль:<br>
         @Html.EditorFor(x => x.Password)

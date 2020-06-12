@@ -19,18 +19,22 @@ namespace TravelAgencyWebClient.Controllers
             _client = client;
         }
         public IActionResult Index(AdminModel model)
-        {
+        {           
             if (model.Password == password)
             {
                 Program.AdminMode = !Program.AdminMode;
                 return RedirectToAction("Blocking");
+            }           
+            if (String.IsNullOrEmpty(model.Password))
+            {
+                ModelState.AddModelError("", "Введите пароль");
+                return View(model);
             }
-            else if (model.Password != password && model.Password != null)
+            else
             {
                 ModelState.AddModelError("", "Вы ввели неверный пароль");
-                return View();
+                return View(model);
             }
-            return View();
         }
         public IActionResult Blocking()
         {
